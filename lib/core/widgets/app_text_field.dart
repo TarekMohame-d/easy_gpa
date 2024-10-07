@@ -50,7 +50,7 @@ class AppTextField extends StatelessWidget {
         focusedBorder: focusedBorder ??
             OutlineInputBorder(
               borderSide: const BorderSide(
-                color: AppColors.soft,
+                color: AppColors.scaffoldLightColor,
                 width: 1.3,
               ),
               borderRadius: borderRadius ?? BorderRadius.circular(24),
@@ -68,7 +68,7 @@ class AppTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         filled: true,
-        fillColor: backGroundColor ?? AppColors.soft,
+        fillColor: backGroundColor ?? AppColors.scaffoldLightColor,
       ),
       style: style ?? AppTextStyles.font14WhiteMedium,
       cursorColor: Colors.black,
