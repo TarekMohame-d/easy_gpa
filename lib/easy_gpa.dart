@@ -1,4 +1,3 @@
-import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/routing/app_router.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
 import 'package:easy_gpa/core/theme/app_themes.dart';
@@ -18,9 +17,8 @@ class EasyGPA extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+        themeMode: ThemeMode.light,
         theme: AppThemes.lightTheme,
-        darkTheme: AppThemes.darkTheme,
         onGenerateRoute: appRouter.generateRoute,
         initialRoute: Routes.homeScreen,
       ),

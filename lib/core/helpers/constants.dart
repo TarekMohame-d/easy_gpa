@@ -1,5 +1,9 @@
-late final bool isDarkMode;
+import 'package:flutter/material.dart';
 
-class SharedPrefKeys {
-  static const String isDarkMode = 'isDarkMode';
+double screenWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
+
+double screenHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
 }

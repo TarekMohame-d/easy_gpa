@@ -35,14 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-  # Classes and helper functions that support JSON code generation via the `json_serializable` package.
-  json_annotation: ^4.9.0
-
-  # Flutter plugin for reading and writing simple key-value pairs. Wraps NSUserDefaults on iOS and SharedPreferences on Android.
-  shared_preferences: ^2.3.2
-
   # Flutter Widgets that make it easy to implement the BLoC (Business Logic Component) design pattern. Built to be used with the bloc state management package.
   flutter_bloc: ^8.1.6
+
+  # A highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
+  fl_chart: ^0.69.0
 
   # Simple direct Service Locator
   get_it: ^8.0.0
@@ -66,9 +63,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
-
-  # Automatically generate code for converting to and from JSON by annotating Dart classes.
-  json_serializable: ^6.8.0
 
   # A build system for Dart code generation and modular compilation
   build_runner: ^2.4.13
