@@ -1,18 +1,19 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
-import 'package:easy_gpa/cubit/gpa_cubit.dart';
+import 'package:easy_gpa/features/courses/presentation/widgets/custom_add_course_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SemestersCardTemplate extends StatelessWidget {
-  const SemestersCardTemplate({super.key});
+class CourseCardTemplate extends StatelessWidget {
+  const CourseCardTemplate({super.key, required this.semesterNumber});
+
+  final int semesterNumber;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        await context.read<GpaCubit>().addSemester();
+      onTap: () {
+        customAddCourseBottomSheet(context, semesterNumber);
       },
       child: DottedBorder(
         color: Colors.grey,
@@ -34,7 +35,7 @@ class SemestersCardTemplate extends StatelessWidget {
                     color: Colors.grey,
                   ),
                   Text(
-                    'Add Semesters',
+                    'Add Course',
                     style: AppTextStyles.font14GreyRegular,
                   ),
                 ],

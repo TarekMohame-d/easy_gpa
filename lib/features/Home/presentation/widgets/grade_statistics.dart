@@ -1,7 +1,9 @@
 import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/pie_sections.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GradeStatistics extends StatefulWidget {
   const GradeStatistics({super.key});
@@ -29,7 +31,10 @@ class _GradeStatisticsState extends State<GradeStatistics> {
             });
           },
         ),
-        sections: creatingPieSections(selectedIndex),
+        sections: creatingPieSections(
+          selectedIndex,
+          context.read<GpaCubit>().gradesStatistics,
+        ),
       ),
     );
   }

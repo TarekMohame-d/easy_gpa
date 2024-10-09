@@ -16,8 +16,8 @@ void main() async {
   setupGetIt();
   AppThemes.setSystemUIColor();
   await SQLHelper.initDB();
-  numOfSemesters =
-      await SharedPrefHelper.getInt(SharedPrefKeys.numberOfSemesters);
+  cGPA = await SharedPrefHelper.getDouble(SharedPrefKeys.cGPA);
+  allCreditHours = await SharedPrefHelper.getInt(SharedPrefKeys.allCreditHours);
   Bloc.observer = MyBlocObserver();
 
   runApp(

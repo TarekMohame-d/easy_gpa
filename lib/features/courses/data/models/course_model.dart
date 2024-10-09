@@ -1,23 +1,23 @@
-import 'package:easy_gpa/features/Home/data/models/grade_enum.dart';
-
 class CourseModel {
   final int? id;
   final String name;
-  final Grade grade;
+  final String grade;
+  final int credits;
   final int semester;
 
   CourseModel({
     required this.name,
     required this.grade,
+    required this.credits,
     required this.semester,
     this.id,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
-      'grade': grade.name,
+      'grade': grade,
+      'credits': credits,
       'semester': semester,
     };
   }
@@ -26,7 +26,8 @@ class CourseModel {
     return CourseModel(
       id: map['id'],
       name: map['name'],
-      grade: Grade.values.firstWhere((e) => e.name == map['grade']),
+      grade: map['grade'],
+      credits: map['credits'],
       semester: map['semester'],
     );
   }
