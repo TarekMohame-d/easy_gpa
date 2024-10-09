@@ -2,7 +2,9 @@ import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
+import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CGPACard extends StatelessWidget {
@@ -37,7 +39,7 @@ class CGPACard extends StatelessWidget {
                           style: AppTextStyles.font14GreyRegular,
                         ),
                         Text(
-                          '3.75 CGPA',
+                          '${context.read<GpaCubit>().cGPA} CGPA',
                           style: AppTextStyles.font16BlackBold,
                         ),
                       ],
@@ -84,7 +86,7 @@ class CGPACard extends StatelessWidget {
                         style: AppTextStyles.font14GreyRegular,
                       ),
                       Text(
-                        '114',
+                        '${context.read<GpaCubit>().creditHours}',
                         style: AppTextStyles.font16BlackBold,
                       ),
                     ],
