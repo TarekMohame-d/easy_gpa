@@ -1,4 +1,6 @@
 import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/routing/routes.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,9 @@ class AllSemestersContainer extends StatelessWidget {
       width: screenWidth(context) * 0.35,
       color: AppColors.lightOrange,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.pushNamed(Routes.semestersScreen);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

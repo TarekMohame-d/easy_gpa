@@ -1,4 +1,5 @@
 import 'package:easy_gpa/features/Home/presentation/screens/home_screen.dart';
+import 'package:easy_gpa/features/semesters/presentation/screens/semesters_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'routes.dart';
@@ -12,6 +13,10 @@ class AppRouter {
       case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (context) => const HomeScreen(),
+        );
+        case Routes.semestersScreen:
+        return MaterialPageRoute(
+          builder: (context) => const SemestersScreen(),
         );
       default:
         return null;
