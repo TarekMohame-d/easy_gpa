@@ -70,68 +70,99 @@ customAddCourseBottomSheet(BuildContext context, int semester) {
                       inputTextStyle: AppTextStyles.font14BLackRegular,
                     ),
                     verticalSpace(12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(right: 12.w),
-                            padding: EdgeInsets.symmetric(horizontal: 12.w),
-                            decoration: BoxDecoration(
+                    AppTextFormField(
+                      controller: courseCreditsController,
+                      hintText: 'Credits',
+                      validator: (input) {
+                        if (input.isNullOrEmpty()) {
+                          return 'Please enter course credits';
+                        }
+                        final parsed = int.tryParse(input!);
+                        if (parsed == null) {
+                          return 'Course credits must be an integer';
+                        }
+                        if (parsed > 5) {
+                          return 'Course credits cannot be greater than 5';
+                        }
+                        return null;
+                      },
+                      backGroundColor: Colors.white,
+                      keyboardType: TextInputType.number,
+                      inputTextStyle: AppTextStyles.font14BLackRegular,
+                    ),
+                    verticalSpace(12),
+                    DropdownButtonHideUnderline(
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          canvasColor: Colors.white,
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 18.h,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: AppColors.lightOrange,
+                                width: 1.3,
+                              ),
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
                                 color: Colors.grey,
+                                width: 1.3,
                               ),
-                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            child: DropdownButtonHideUnderline(
-                              child: Theme(
-                                data: Theme.of(context).copyWith(
-                                  canvasColor: Colors.white,
-                                ),
-                                child: DropdownButtonFormField<String>(
-                                  value: selectedGrade,
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return 'Please select grade';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedGrade = newValue;
-                                    });
-                                  },
-                                  hint: const Text('Grade'),
-                                  items: grades.map((String grade) {
-                                    return DropdownMenuItem<String>(
-                                      value: grade,
-                                      child: Text(grade),
-                                    );
-                                  }).toList(),
-                                ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 1.3,
                               ),
+                              borderRadius: BorderRadius.circular(12),
                             ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 1.3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            hintStyle: AppTextStyles.font14GreyRegular,
+                            filled: true,
+                            fillColor: Colors.white,
                           ),
-                        ),
-                        Expanded(
-                          child: AppTextFormField(
-                            controller: courseCreditsController,
-                            hintText: 'Credits',
-                            validator: (input) {
-                              if (input.isNullOrEmpty()) {
-                                return 'Please enter course credits';
-                              }
-                            },
-                            backGroundColor: Colors.white,
-                            keyboardType: TextInputType.number,
-                            inputTextStyle: AppTextStyles.font14BLackRegular,
+                          value: selectedGrade,
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select grade';
+                            }
+                            return null;
+                          },
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedGrade = newValue;
+                            });
+                          },
+                          hint: Text(
+                            'Grade',
+                            style: AppTextStyles.font14GreyRegular,
                           ),
+                          items: grades.map((String grade) {
+                            return DropdownMenuItem<String>(
+                              value: grade,
+                              child: Text(grade),
+                            );
+                          }).toList(),
                         ),
-                      ],
+                      ),
                     ),
                     verticalSpace(24),
                     AppTextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           CourseModel course = CourseModel(
                             name: courseNameController.text,
@@ -139,7 +170,7 @@ customAddCourseBottomSheet(BuildContext context, int semester) {
                             semester: semester,
                             grade: selectedGrade!,
                           );
-                          context.read<GpaCubit>().addCourse(course);
+                          await context.read<GpaCubit>().addCourse(course);
                           context.pop();
                         }
                       },

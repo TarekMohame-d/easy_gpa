@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
@@ -9,24 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CoursesScreen extends StatefulWidget {
+class CoursesScreen extends StatelessWidget {
   const CoursesScreen({super.key, required this.semesterNumber});
 
   final int semesterNumber;
-
-  @override
-  State<CoursesScreen> createState() => _CoursesScreenState();
-}
-
-class _CoursesScreenState extends State<CoursesScreen> {
-  List<CourseModel> courses = [];
-
-  @override
-  void initState() {
-    courses =
-        context.read<GpaCubit>().filterSemesterCourses(widget.semesterNumber);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,30 +33,29 @@ class _CoursesScreenState extends State<CoursesScreen> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: BlocBuilder<GpaCubit, GpaState>(
-            buildWhen: (previous, current) =>
-                current is AddCourseSuccess || current is GetAllCoursesSuccess,
+            buildWhen: (previous, current) => current is AddCourseSuccess,
             builder: (context, state) {
-              courses = context
-                  .read<GpaCubit>()
-                  .filterSemesterCourses(widget.semesterNumber);
-              return ListView(
-                children: [
-                  ...List.generate(
-                    courses.length,
-                    (index) => CourseCard(
-                      courseModel: CourseModel(
-                        credits: courses[index].credits,
-                        name: courses[index].name,
-                        grade: courses[index].grade,
-                        semester: widget.semesterNumber,
+              log('build courses screen');
+              return FutureBuilder<List<CourseModel>>(
+                future:
+                    context.read<GpaCubit>().getSemesterCourses(semesterNumber),
+                builder: (context, snapshot) {
+                  final courses = snapshot.data ?? [];
+                  return ListView(
+                    children: [
+                      ...List.generate(
+                        courses.length,
+                        (index) => CourseCard(
+                          courseModel: courses[index],
+                        ),
                       ),
-                    ),
-                  ),
-                  verticalSpace(12),
-                  CourseCardTemplate(
-                    semesterNumber: widget.semesterNumber,
-                  ),
-                ],
+                      verticalSpace(12),
+                      CourseCardTemplate(
+                        semesterNumber: semesterNumber,
+                      ),
+                    ],
+                  );
+                },
               );
             },
           ),

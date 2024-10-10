@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CGPACard extends StatelessWidget {
-  const CGPACard({super.key});
+  const CGPACard({super.key, required this.cGPA, required this.allCreditHours});
+
+  final double cGPA;
+  final int allCreditHours;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class CGPACard extends StatelessWidget {
                           style: AppTextStyles.font14GreyRegular,
                         ),
                         Text(
-                          '${cGPA.toStringAsFixed(3)} CGPA',
+                          '${cGPA.toStringAsFixed(2)} CGPA',
                           style: AppTextStyles.font16BlackBold,
                         ),
                       ],

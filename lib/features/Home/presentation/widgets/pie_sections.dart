@@ -1,4 +1,3 @@
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,29 +35,34 @@ List<PieChartSectionData> creatingPieSections(
         value: percentage,
         radius: radius,
         showTitle: false,
-        badgeWidget: Opacity(
-          opacity: opacity,
-          child: Container(
-            width: 70.w,
-            height: 70.h,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white.withOpacity(opacity),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '${percentage.toStringAsFixed(1)}%',
-                  style: AppTextStyles.font16BlackBold,
+        badgeWidget: Container(
+          width: 70.w,
+          height: 70.h,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white.withOpacity(opacity),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${percentage.toStringAsFixed(1)}%',
+                style: TextStyle(
+                  color: Colors.black.withOpacity(opacity),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  gradesStatistics.keys.elementAt(index),
-                  style: AppTextStyles.font14GreyRegular,
+              ),
+              Text(
+                gradesStatistics.keys.elementAt(index),
+                style: TextStyle(
+                  color: Colors.grey.withOpacity(opacity),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         badgePositionPercentageOffset: 1,

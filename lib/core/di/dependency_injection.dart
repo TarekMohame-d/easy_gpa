@@ -3,6 +3,7 @@ import 'package:easy_gpa/features/courses/data/repository/courses_repo_impl.dart
 import 'package:easy_gpa/features/courses/domain/repository/courses_repo.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/filter_semester_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/get_all_courses_use_case.dart';
+import 'package:easy_gpa/features/courses/domain/usecases/get_semester_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/insert_course_use_case.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,6 +14,9 @@ void setupGetIt() {
   getIt.registerLazySingleton<CoursesRepo>(() => CoursesRepoImpl(getIt()));
   getIt.registerLazySingleton<InsertCourseUseCase>(
       () => InsertCourseUseCase(getIt()));
+
+  getIt.registerLazySingleton<GetSemesterCoursesUseCase>(
+      () => GetSemesterCoursesUseCase(getIt()));
 
   getIt.registerLazySingleton<GetAllCoursesUseCase>(
       () => GetAllCoursesUseCase(getIt()));

@@ -7,11 +7,3 @@ double screenWidth(BuildContext context) {
 double screenHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
-
-late double cGPA;
-late int allCreditHours;
-
-class SharedPrefKeys {
-  static const String cGPA = 'cGPA';
-   static const String allCreditHours = 'allCreditHours';
-}

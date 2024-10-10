@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
+import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/semesters/presentation/widgets/semesters_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SemestersScreen extends StatelessWidget {
@@ -23,15 +27,28 @@ class SemestersScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: ListView(
-            children: [
-              ...List.generate(
-                12,
-                (index) => SemestersCard(
-                  index: index + 1,
-                ),
-              ),
-            ],
+          child: BlocBuilder<GpaCubit, GpaState>(
+            buildWhen: (previous, current) => current is AddCourseSuccess,
+            builder: (context, state) {
+              log('build semesters screen');
+              return ListView.builder(
+                itemCount: 12,
+                itemBuilder: (context, index) {
+                  return FutureBuilder<double?>(
+                    future: context
+                        .read<GpaCubit>()
+                        .calculateSemesterGPA(index + 1),
+                    builder: (context, snapshot) {
+                      double? gpa = snapshot.data;
+                      return SemestersCard(
+                        index: index + 1,
+                        gpa: gpa,
+                      );
+                    },
+                  );
+                },
+              );
+            },
           ),
         ),
       ),

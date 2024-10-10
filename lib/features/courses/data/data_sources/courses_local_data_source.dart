@@ -4,4 +4,8 @@ class CoursesLocalDataSource {
   Future<List<Map<String, dynamic>>> getAllCourses() async {
     return SQLHelper.getAllDBItems();
   }
+
+  Future<List<Map<String, dynamic>>> getSemesterCourses(int semesterId) async {
+    return SQLHelper.getItems(semesterId);
+  }
 }

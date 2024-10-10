@@ -12,22 +12,40 @@ class EasyGPA extends StatelessWidget {
 
   final AppRouter appRouter;
 
+  Future<GpaCubit> _createCubit() async {
+    final gpaCubit = GpaCubit(getIt(), getIt(), getIt());
+    await gpaCubit.getAllCourses();
+    return gpaCubit;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: BlocProvider(
-        create: (context) =>
-            GpaCubit(getIt(), getIt(), getIt())..getAllCourses(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          themeMode: ThemeMode.light,
-          theme: AppThemes.lightTheme,
-          onGenerateRoute: appRouter.generateRoute,
-          initialRoute: Routes.homeScreen,
-        ),
+      child: FutureBuilder<GpaCubit>(
+        future: _createCubit(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          final gpaCubit = snapshot.data!;
+
+          return BlocProvider.value(
+            value: gpaCubit,
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              themeMode: ThemeMode.light,
+              theme: AppThemes.lightTheme,
+              onGenerateRoute: appRouter.generateRoute,
+              initialRoute: Routes.homeScreen,
+            ),
+          );
+        },
       ),
     );
   }

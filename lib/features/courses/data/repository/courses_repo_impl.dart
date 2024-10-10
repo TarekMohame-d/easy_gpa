@@ -24,4 +24,15 @@ class CoursesRepoImpl implements CoursesRepo {
     }
     return coursesList.isNullOrEmpty() ? [] : coursesList!;
   }
+
+  @override
+  Future<List<CourseModel>> getSemesterCourses(int semesterId) async {
+    List<Map<String, dynamic>> courses =
+        await _coursesLocalDataSource.getSemesterCourses(semesterId);
+    List<CourseModel>? coursesList;
+    if (courses.isNotEmpty) {
+      coursesList = courses.map((e) => CourseModel.fromMap(e)).toList();
+    }
+    return coursesList.isNullOrEmpty() ? [] : coursesList!;
+  }
 }

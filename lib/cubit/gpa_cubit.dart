@@ -1,10 +1,8 @@
 import 'package:easy_gpa/core/functions/grade_to_number.dart';
-import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/helpers/shared_pref_helper.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
-import 'package:easy_gpa/features/courses/domain/usecases/filter_semester_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/get_all_courses_use_case.dart';
+import 'package:easy_gpa/features/courses/domain/usecases/get_semester_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/insert_course_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,12 +13,12 @@ class GpaCubit extends Cubit<GpaState> {
   GpaCubit(
     this._addCourseUseCase,
     this._getAllCoursesUseCase,
-    this._filterSemesterCoursesUseCase,
+    this._getSemesterCoursesUseCase,
   ) : super(GpaInitial());
 
   final InsertCourseUseCase _addCourseUseCase;
   final GetAllCoursesUseCase _getAllCoursesUseCase;
-  final FilterSemesterCoursesUseCase _filterSemesterCoursesUseCase;
+  final GetSemesterCoursesUseCase _getSemesterCoursesUseCase;
 
   List<CourseModel> allCourses = [];
 
@@ -39,6 +37,9 @@ class GpaCubit extends Cubit<GpaState> {
     'F': 0,
   };
 
+  double cGPA = 0.0;
+  int allCreditHours = 0;
+
   void calculateGradeStatistics() {
     gradesStatistics.updateAll((key, value) => 0);
     for (var course in allCourses) {
@@ -48,14 +49,14 @@ class GpaCubit extends Cubit<GpaState> {
     }
   }
 
-  double? calculateSemesterGPA(int semesterId) {
-    List<CourseModel> semesterCourses = filterSemesterCourses(semesterId);
+  Future<double?> calculateSemesterGPA(int semesterId) async {
+    List<CourseModel> semesterCourses = await getSemesterCourses(semesterId);
+
     if (semesterCourses.isNullOrEmpty()) return null;
     double qualityPoints = 0;
     for (var course in semesterCourses) {
       qualityPoints += course.credits * convertGradeToNumber(course.grade);
     }
-    emit(UpdateSemestersCardData());
     return qualityPoints /
         semesterCourses.fold(0, (sum, course) => sum + course.credits);
   }
@@ -64,7 +65,7 @@ class GpaCubit extends Cubit<GpaState> {
     allCreditHours = allCourses.fold(0, (sum, course) => sum + course.credits);
   }
 
-  Future<void> calculateCGPA() async {
+  void calculateCGPA() {
     if (allCourses.isEmpty) {
       cGPA = 0.0;
       return;
@@ -78,10 +79,7 @@ class GpaCubit extends Cubit<GpaState> {
     }
 
     cGPA = allCreditHours > 0 ? qualityPoints / allCreditHours : 0.0;
-    await SharedPrefHelper.setData(SharedPrefKeys.cGPA, cGPA);
-    await SharedPrefHelper.setData(
-        SharedPrefKeys.allCreditHours, allCreditHours);
-    emit(UpdateHomeScreenData());
+    calculateGradeStatistics();
   }
 
   Future<void> addCourse(CourseModel course) async {
@@ -90,27 +88,23 @@ class GpaCubit extends Cubit<GpaState> {
     if (result) {
       emit(AddCourseSuccess());
       await getAllCourses();
-      calculateSemesterGPA(course.semester);
     } else {
       emit(AddCourseFailure());
     }
   }
 
-  Future<List<CourseModel>> getAllCourses() async {
-    emit(GetAllCoursesLoading());
+  Future<void> getAllCourses() async {
     final List<CourseModel> courses = await _getAllCoursesUseCase.call();
     if (!courses.isNullOrEmpty()) {
       allCourses = courses;
-      await calculateCGPA();
-      calculateGradeStatistics();
+      calculateCGPA();
       emit(GetAllCoursesSuccess());
-    } else {
-      emit(GetAllCoursesFailure());
     }
-    return courses;
   }
 
-  List<CourseModel> filterSemesterCourses(int semesterId) {
-    return _filterSemesterCoursesUseCase.call(allCourses, semesterId);
+  Future<List<CourseModel>> getSemesterCourses(int semesterId) async {
+    final List<CourseModel> courses =
+        await _getSemesterCoursesUseCase.call(semesterId);
+    return courses;
   }
 }

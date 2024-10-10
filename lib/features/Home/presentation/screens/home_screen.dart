@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
@@ -18,8 +20,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<GpaCubit, GpaState>(
-        buildWhen: (previous, current) => current is UpdateHomeScreenData,
+        buildWhen: (previous, current) =>
+            current is AddCourseSuccess,
         builder: (context, state) {
+          log('build home screen');
           return Column(
             children: [
               SizedBox(
@@ -38,9 +42,12 @@ class HomeScreen extends StatelessWidget {
                         style: AppTextStyles.font20BlackBold,
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       bottom: 0,
-                      child: CGPACard(),
+                      child: CGPACard(
+                        cGPA: context.read<GpaCubit>().cGPA,
+                        allCreditHours: context.read<GpaCubit>().allCreditHours,
+                      ),
                     ),
                   ],
                 ),
@@ -81,7 +88,10 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const GradeStatistics(),
+                            GradeStatistics(
+                              gradesStatistics:
+                                  context.read<GpaCubit>().gradesStatistics,
+                            ),
                           ],
                         ),
                       ),

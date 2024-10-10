@@ -17,6 +17,8 @@ final class GetAllCoursesSuccess extends GpaState {}
 
 final class GetAllCoursesFailure extends GpaState {}
 
-final class UpdateHomeScreenData extends GpaState {}
+final class UpdateSemesterGPA extends GpaState {}
 
-final class UpdateSemestersCardData extends GpaState {}
+final class FilterSemesterCourses extends GpaState {}
+
+final class GetSemesterCoursesSuccess extends GpaState {}
