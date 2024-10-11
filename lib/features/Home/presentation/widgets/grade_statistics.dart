@@ -1,10 +1,10 @@
+import 'dart:developer';
+
 import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
-import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/pie_sections.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GradeStatistics extends StatefulWidget {
   const GradeStatistics({super.key, required this.gradesStatistics});
@@ -30,16 +30,20 @@ class _GradeStatisticsState extends State<GradeStatistics> {
               sectionsSpace: 3,
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  setState(() {
-                    selectedIndex =
-                        pieTouchResponse?.touchedSection?.touchedSectionIndex ??
-                            -1;
-                  });
+                  if (event is FlTapUpEvent &&
+                      pieTouchResponse != null &&
+                      pieTouchResponse.touchedSection != null) {
+                    setState(() {
+                      selectedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    });
+                    log(selectedIndex.toString());
+                  }
                 },
               ),
               sections: creatingPieSections(
-                selectedIndex,
-                context.read<GpaCubit>().gradesStatistics,
+                selectedIndex + 1,
+                widget.gradesStatistics,
               ),
             ),
           )

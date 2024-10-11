@@ -20,86 +20,91 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<GpaCubit, GpaState>(
-        buildWhen: (previous, current) =>
-            current is AddCourseSuccess,
+        buildWhen: (previous, current) => current is AddCourseSuccess,
         builder: (context, state) {
           log('build home screen');
-          return Column(
-            children: [
-              SizedBox(
-                height: screenHeight(context) * 0.4,
-                child: Stack(
-                  children: [
-                    const Align(
-                      alignment: Alignment.topRight,
-                      child: AllSemestersContainer(),
+          return FutureBuilder(
+            future: context.read<GpaCubit>().getAllCourses(),
+            builder: (context, snapshot) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: screenHeight(context) * 0.4,
+                    child: Stack(
+                      children: [
+                        const Align(
+                          alignment: Alignment.topRight,
+                          child: AllSemestersContainer(),
+                        ),
+                        Positioned(
+                          top: 50.h,
+                          left: 20.w,
+                          child: Text(
+                            'Grade Point\nAverage',
+                            style: AppTextStyles.font20BlackBold,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          child: CGPACard(
+                            cGPA: context.read<GpaCubit>().cGPA,
+                            allCreditHours:
+                                context.read<GpaCubit>().allCreditHours,
+                          ),
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      top: 50.h,
-                      left: 20.w,
-                      child: Text(
-                        'Grade Point\nAverage',
-                        style: AppTextStyles.font20BlackBold,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      child: CGPACard(
-                        cGPA: context.read<GpaCubit>().cGPA,
-                        allCreditHours: context.read<GpaCubit>().allCreditHours,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              verticalSpace(32),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Grade Statistics',
-                        style: AppTextStyles.font20BlackBold,
-                      ),
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.3,
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: screenWidth(context) * 0.8,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 0.3,
+                  ),
+                  verticalSpace(32),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Grade Statistics',
+                            style: AppTextStyles.font20BlackBold,
+                          ),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 0.3,
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    width: screenWidth(context) * 0.8,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 0.3,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GradeStatistics(
+                                  gradesStatistics:
+                                      context.read<GpaCubit>().gradesStatistics,
+                                ),
+                              ],
                             ),
-                            GradeStatistics(
-                              gradesStatistics:
-                                  context.read<GpaCubit>().gradesStatistics,
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           );
         },
       ),

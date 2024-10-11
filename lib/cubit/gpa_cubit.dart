@@ -23,6 +23,7 @@ class GpaCubit extends Cubit<GpaState> {
   List<CourseModel> allCourses = [];
 
   Map<String, int> gradesStatistics = {
+    'A+': 0,
     'A': 0,
     'A-': 0,
     'B+': 0,
@@ -72,13 +73,15 @@ class GpaCubit extends Cubit<GpaState> {
     }
 
     double qualityPoints = 0;
-    calculateAllCreditHours();
-
     for (var course in allCourses) {
       qualityPoints += course.credits * convertGradeToNumber(course.grade);
     }
-
     cGPA = allCreditHours > 0 ? qualityPoints / allCreditHours : 0.0;
+  }
+
+  void calculateHomeScreenData() {
+    calculateAllCreditHours();
+    calculateCGPA();
     calculateGradeStatistics();
   }
 
@@ -87,7 +90,6 @@ class GpaCubit extends Cubit<GpaState> {
     final bool result = await _addCourseUseCase.call(course);
     if (result) {
       emit(AddCourseSuccess());
-      await getAllCourses();
     } else {
       emit(AddCourseFailure());
     }
@@ -97,7 +99,7 @@ class GpaCubit extends Cubit<GpaState> {
     final List<CourseModel> courses = await _getAllCoursesUseCase.call();
     if (!courses.isNullOrEmpty()) {
       allCourses = courses;
-      calculateCGPA();
+      calculateHomeScreenData();
       emit(GetAllCoursesSuccess());
     }
   }

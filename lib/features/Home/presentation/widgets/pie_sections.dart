@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 List<PieChartSectionData> creatingPieSections(
-    int selectedIndex, Map<String, int> gradesStatistics) {
-  // Predefined colors for different grades
+  int selectedIndex,
+  Map<String, int> gradesStatistics,
+) {
   List<Color> colors = [
     Colors.green,
     Colors.yellow,
@@ -24,20 +25,22 @@ List<PieChartSectionData> creatingPieSections(
     (index) {
       final isTouched = index == selectedIndex;
       final radius = isTouched ? 70.0 : 50.0;
-      final double opacity = isTouched ? 1.0 : 0.6;
+      final double opacity = isTouched ? 1.0 : 0.0;
+      final double colorOpacity = isTouched ? 1.0 : 0.5;
 
       // Calculate the percentage for each grade
       double percentage = totalCourses > 0
           ? (gradesStatistics.values.elementAt(index) / totalCourses) * 100
           : 0;
       return PieChartSectionData(
-        color: colors[index % colors.length].withOpacity(opacity),
+        color: colors[index % colors.length].withOpacity(colorOpacity),
         value: percentage,
         radius: radius,
-        showTitle: false,
+        title: gradesStatistics.keys.elementAt(index),
+        showTitle: true,
         badgeWidget: Container(
-          width: 70.w,
-          height: 70.h,
+          width: 60.w,
+          height: 60.h,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.white.withOpacity(opacity),

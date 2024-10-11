@@ -190,6 +190,7 @@ customAddCourseBottomSheet(BuildContext context, int semester) {
 }
 
 List<String> grades = [
+  'A+',
   'A',
   'A-',
   'B+',

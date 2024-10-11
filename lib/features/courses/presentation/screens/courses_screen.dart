@@ -51,6 +51,7 @@ class CoursesScreen extends StatelessWidget {
                       ),
                       verticalSpace(12),
                       CourseCardTemplate(
+                        numberOfCourses: courses.length,
                         semesterNumber: semesterNumber,
                       ),
                     ],
