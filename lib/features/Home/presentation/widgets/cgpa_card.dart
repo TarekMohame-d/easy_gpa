@@ -2,13 +2,14 @@ import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
-import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CGPACard extends StatelessWidget {
-  const CGPACard({super.key});
+  const CGPACard({super.key, required this.cGPA, required this.allCreditHours});
+
+  final double cGPA;
+  final int allCreditHours;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class CGPACard extends StatelessWidget {
                           style: AppTextStyles.font14GreyRegular,
                         ),
                         Text(
-                          '${context.read<GpaCubit>().cGPA} CGPA',
+                          '${cGPA.toStringAsFixed(2)} CGPA',
                           style: AppTextStyles.font16BlackBold,
                         ),
                       ],
@@ -82,11 +83,11 @@ class CGPACard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Total Hours',
+                        'Total Credit Hours',
                         style: AppTextStyles.font14GreyRegular,
                       ),
                       Text(
-                        '${context.read<GpaCubit>().creditHours}',
+                        allCreditHours.toString(),
                         style: AppTextStyles.font16BlackBold,
                       ),
                     ],

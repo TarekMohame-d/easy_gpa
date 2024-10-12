@@ -9,11 +9,11 @@ void customDialog(BuildContext context) {
       return AlertDialog(
         title: const Text('GPA Scale'),
         backgroundColor: AppColors.scaffoldLightColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         contentPadding: const EdgeInsets.all(10),
         content: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -29,7 +29,13 @@ void customDialog(BuildContext context) {
               ],
             ),
             const Divider(),
-            ...generateGPAItem(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                generateGPAItem(true),
+                generateGPAItem(false),
+              ],
+            ),
           ],
         ),
       );
@@ -37,28 +43,26 @@ void customDialog(BuildContext context) {
   );
 }
 
-List<Widget> generateGPAItem() {
-  return List.generate(
-    gpaScale.length,
-    (index) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            gpaScale[index].$1,
+Widget generateGPAItem(bool grade) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      ...List.generate(
+        gpaScale.length,
+        (index) {
+          String text = grade ? gpaScale[index].$1 : gpaScale[index].$2;
+          return Text(
+            text,
             style: AppTextStyles.font14BLackRegular,
-          ),
-          Text(
-            gpaScale[index].$2,
-            style: AppTextStyles.font14BLackRegular,
-          ),
-        ],
-      );
-    },
+          );
+        },
+      ),
+    ],
   );
 }
 
 List<(String, String)> gpaScale = [
+  ('A+', '4.0'),
   ('A', '4.0'),
   ('A-', '3.7'),
   ('B+', '3.3'),

@@ -1,7 +1,5 @@
 import 'package:easy_gpa/core/di/dependency_injection.dart';
 import 'package:easy_gpa/core/helpers/bloc_observer.dart';
-import 'package:easy_gpa/core/helpers/constants.dart';
-import 'package:easy_gpa/core/helpers/shared_pref_helper.dart';
 import 'package:easy_gpa/core/helpers/sql_helper.dart';
 import 'package:easy_gpa/core/routing/app_router.dart';
 import 'package:easy_gpa/core/theme/app_themes.dart';
@@ -16,8 +14,6 @@ void main() async {
   setupGetIt();
   AppThemes.setSystemUIColor();
   await SQLHelper.initDB();
-  numOfSemesters =
-      await SharedPrefHelper.getInt(SharedPrefKeys.numberOfSemesters);
   Bloc.observer = MyBlocObserver();
 
   runApp(

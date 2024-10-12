@@ -1,3 +1,4 @@
+import 'package:easy_gpa/core/di/dependency_injection.dart';
 import 'package:easy_gpa/core/routing/app_router.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
 import 'package:easy_gpa/core/theme/app_themes.dart';
@@ -18,7 +19,13 @@ class EasyGPA extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: BlocProvider(
-        create: (context) => GpaCubit(),
+        create: (context) => GpaCubit(
+          getIt(),
+          getIt(),
+          getIt(),
+          getIt(),
+          getIt(),
+        ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,

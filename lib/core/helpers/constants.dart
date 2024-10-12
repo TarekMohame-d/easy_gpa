@@ -7,9 +7,3 @@ double screenWidth(BuildContext context) {
 double screenHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
-
-late int numOfSemesters;
-
-class SharedPrefKeys {
-  static const String numberOfSemesters = 'numberOfSemesters';
-}

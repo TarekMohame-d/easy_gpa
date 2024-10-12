@@ -44,9 +44,6 @@ dependencies:
   # A flutter package to let users easily add a dashed border around any widget.
   dotted_border: ^2.1.0
 
-  # Flutter plugin for reading and writing simple key-value pairs. Wraps NSUserDefaults on iOS and SharedPreferences on Android.
-  shared_preferences: ^2.3.2
-
   # Simple direct Service Locator
   get_it: ^8.0.0
 
