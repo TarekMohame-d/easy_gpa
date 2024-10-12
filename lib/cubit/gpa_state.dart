@@ -22,3 +22,7 @@ final class UpdateSemesterGPA extends GpaState {}
 final class FilterSemesterCourses extends GpaState {}
 
 final class GetSemesterCoursesSuccess extends GpaState {}
+
+final class UpdateCourseSuccess extends GpaState {}
+
+final class DeleteCourseSuccess extends GpaState {}

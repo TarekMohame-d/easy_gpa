@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
@@ -20,11 +21,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<GpaCubit, GpaState>(
-        buildWhen: (previous, current) => current is AddCourseSuccess,
+        buildWhen: (previous, current) =>
+            current is AddCourseSuccess ||
+            current is UpdateCourseSuccess ||
+            current is DeleteCourseSuccess,
         builder: (context, state) {
           log('build home screen');
           return FutureBuilder(
-            future: context.read<GpaCubit>().getAllCourses(),
+            future: context.read<GpaCubit>().allCourses.isNullOrEmpty()
+                ? context.read<GpaCubit>().getAllCourses()
+                : null,
             builder: (context, snapshot) {
               return Column(
                 children: [

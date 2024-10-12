@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/theme/app_colors.dart';
+import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
@@ -28,12 +29,20 @@ class CoursesScreen extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back_ios_new_outlined),
         ),
+        title: Text(
+          'Semester $semesterNumber',
+          style: AppTextStyles.font20lightOrangeBold,
+        ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: BlocBuilder<GpaCubit, GpaState>(
-            buildWhen: (previous, current) => current is AddCourseSuccess,
+            buildWhen: (previous, current) =>
+                current is AddCourseSuccess ||
+                current is UpdateCourseSuccess ||
+                current is DeleteCourseSuccess,
             builder: (context, state) {
               log('build courses screen');
               return FutureBuilder<List<CourseModel>>(

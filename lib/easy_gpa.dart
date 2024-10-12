@@ -19,7 +19,13 @@ class EasyGPA extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: BlocProvider(
-        create: (context) => GpaCubit(getIt(), getIt(), getIt()),
+        create: (context) => GpaCubit(
+          getIt(),
+          getIt(),
+          getIt(),
+          getIt(),
+          getIt(),
+        ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,

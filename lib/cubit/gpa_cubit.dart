@@ -1,9 +1,11 @@
 import 'package:easy_gpa/core/functions/grade_to_number.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
+import 'package:easy_gpa/features/courses/domain/usecases/delete_course_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/get_all_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/get_semester_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/insert_course_use_case.dart';
+import 'package:easy_gpa/features/courses/domain/usecases/update_course_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,11 +16,15 @@ class GpaCubit extends Cubit<GpaState> {
     this._addCourseUseCase,
     this._getAllCoursesUseCase,
     this._getSemesterCoursesUseCase,
+    this._updateCourseUseCase,
+    this._deleteCourseUseCase,
   ) : super(GpaInitial());
 
   final InsertCourseUseCase _addCourseUseCase;
   final GetAllCoursesUseCase _getAllCoursesUseCase;
   final GetSemesterCoursesUseCase _getSemesterCoursesUseCase;
+  final UpdateCourseUseCase _updateCourseUseCase;
+  final DeleteCourseUseCase _deleteCourseUseCase;
 
   List<CourseModel> allCourses = [];
 
@@ -89,6 +95,8 @@ class GpaCubit extends Cubit<GpaState> {
     emit(AddCourseLoading());
     final bool result = await _addCourseUseCase.call(course);
     if (result) {
+      allCourses.add(course);
+      calculateHomeScreenData();
       emit(AddCourseSuccess());
     } else {
       emit(AddCourseFailure());
@@ -108,5 +116,26 @@ class GpaCubit extends Cubit<GpaState> {
     final List<CourseModel> courses =
         await _getSemesterCoursesUseCase.call(semesterId);
     return courses;
+  }
+
+  Future<void> updateCourse(CourseModel course) async {
+    final bool result = await _updateCourseUseCase.call(course);
+    if (result) {
+      final index = allCourses.indexWhere((course) => course.id == course.id);
+      if (index != -1) {
+        allCourses[index] = course;
+        calculateHomeScreenData();
+      }
+      emit(UpdateCourseSuccess());
+    }
+  }
+
+  Future<void> deleteCourse(int courseId) async {
+    final bool result = await _deleteCourseUseCase.call(courseId);
+    if (result) {
+      allCourses.removeWhere((course) => course.id == courseId);
+      calculateHomeScreenData();
+      emit(DeleteCourseSuccess());
+    }
   }
 }

@@ -28,7 +28,10 @@ class SemestersScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: BlocBuilder<GpaCubit, GpaState>(
-            buildWhen: (previous, current) => current is AddCourseSuccess,
+            buildWhen: (previous, current) =>
+                current is AddCourseSuccess ||
+                current is UpdateCourseSuccess ||
+                current is DeleteCourseSuccess,
             builder: (context, state) {
               log('build semesters screen');
               return ListView.builder(

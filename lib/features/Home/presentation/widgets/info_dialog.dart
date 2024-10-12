@@ -9,8 +9,7 @@ void customDialog(BuildContext context) {
       return AlertDialog(
         title: const Text('GPA Scale'),
         backgroundColor: AppColors.scaffoldLightColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         contentPadding: const EdgeInsets.all(10),
         content: Column(
           mainAxisSize: MainAxisSize.min,

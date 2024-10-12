@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/features/courses/presentation/widgets/custom_add_course_bottom_sheet.dart';
@@ -17,11 +15,26 @@ class CourseCardTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (numberOfCourses < 6) {
+        if (numberOfCourses < 8) {
           customAddCourseBottomSheet(context, semesterNumber);
         } else {
-          // TODO: add snackbar
-          log('Course limit reached!');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Maximum number of courses per semester is 8',
+                style: AppTextStyles.font14GreyRegular,
+              ),
+              backgroundColor: const Color(0xff323232),
+              duration: const Duration(seconds: 1, milliseconds: 500),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              elevation: 5,
+              margin: const EdgeInsets.symmetric(horizontal: 12),
+              behavior: SnackBarBehavior.floating,
+              
+            ),
+          );
         }
       },
       child: DottedBorder(

@@ -11,11 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-customAddCourseBottomSheet(BuildContext context, int semester) {
+customAddCourseBottomSheet(BuildContext context,
+    [int? semester, CourseModel? editCourse]) {
   String? selectedGrade;
   TextEditingController courseNameController = TextEditingController();
   TextEditingController courseCreditsController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  if (editCourse != null) {
+    courseNameController.text = editCourse.name;
+    courseCreditsController.text = editCourse.credits.toString();
+    selectedGrade = editCourse.grade;
+  }
 
   return showModalBottomSheet(
     context: context,
@@ -167,14 +174,27 @@ customAddCourseBottomSheet(BuildContext context, int semester) {
                           CourseModel course = CourseModel(
                             name: courseNameController.text,
                             credits: int.parse(courseCreditsController.text),
-                            semester: semester,
+                            semester: editCourse?.semester ?? semester!,
                             grade: selectedGrade!,
+                            id: editCourse?.id,
                           );
-                          await context.read<GpaCubit>().addCourse(course);
+                          if (editCourse == null) {
+                            await context.read<GpaCubit>().addCourse(course);
+                          } else {
+                            bool hasChanges = editCourse.name != course.name ||
+                                editCourse.credits != course.credits ||
+                                editCourse.grade != course.grade;
+                            if (hasChanges) {
+                              await context
+                                  .read<GpaCubit>()
+                                  .updateCourse(course);
+                            }
+                          }
                           context.pop();
                         }
                       },
-                      buttonText: 'Add Course',
+                      buttonText:
+                          editCourse == null ? 'Add Course' : 'Update Course',
                       textStyle: AppTextStyles.font14BLackRegular,
                       backgroundColor: AppColors.lightOrange,
                     ),

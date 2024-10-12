@@ -4,4 +4,6 @@ abstract class CoursesRepo {
   Future<bool> insertCourse(CourseModel course);
   Future<List<CourseModel>> getAllCourses();
   Future<List<CourseModel>> getSemesterCourses(int semesterId);
+  Future<bool> updateCourse(CourseModel course);
+  Future<bool> deleteCourse(int courseId);
 }

@@ -14,12 +14,16 @@ class CourseModel {
   });
 
   Map<String, dynamic> toMap() {
-    return {
+    final map = {
       'name': name,
       'grade': grade,
       'credits': credits,
       'semester': semester,
     };
+    if (id != null) {
+      map['id'] = id!;
+    }
+    return map;
   }
 
   factory CourseModel.fromMap(Map<String, dynamic> map) {

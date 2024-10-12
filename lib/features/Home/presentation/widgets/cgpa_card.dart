@@ -83,7 +83,7 @@ class CGPACard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Total Hours',
+                        'Total Credit Hours',
                         style: AppTextStyles.font14GreyRegular,
                       ),
                       Text(

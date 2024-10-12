@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/pie_sections.dart';
@@ -16,7 +14,7 @@ class GradeStatistics extends StatefulWidget {
 }
 
 class _GradeStatisticsState extends State<GradeStatistics> {
-  int selectedIndex = -1;
+  int selectedIndex = -10;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +35,11 @@ class _GradeStatisticsState extends State<GradeStatistics> {
                       selectedIndex =
                           pieTouchResponse.touchedSection!.touchedSectionIndex;
                     });
-                    log(selectedIndex.toString());
                   }
                 },
               ),
               sections: creatingPieSections(
-                selectedIndex + 1,
+                selectedIndex,
                 widget.gradesStatistics,
               ),
             ),
