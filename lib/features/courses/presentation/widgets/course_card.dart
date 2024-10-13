@@ -23,36 +23,59 @@ class CourseCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    courseModel.name,
-                    style: AppTextStyles.font14BLackBold,
-                  ),
-                  const Divider(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: Colors.grey,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        courseModel.grade,
-                        style: AppTextStyles.font14BLackRegular,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        courseModel.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.font16BlackRegular,
                       ),
-                      horizontalSpace(20),
-                      Text(
-                        courseModel.credits.toString(),
-                        style: AppTextStyles.font14BLackRegular,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 75.h,
-              child: const VerticalDivider(
-                color: Colors.grey,
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                      height: 0,
+                    ),
+                    Row(
+                      children: [
+                        horizontalSpace(25),
+                        Text(
+                          courseModel.grade,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.font14BlackRegular,
+                        ),
+                        SizedBox(
+                          height: 40.h,
+                          child: const VerticalDivider(
+                            width: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          courseModel.credits.toString(),
+                          style: AppTextStyles.font14BlackRegular,
+                        ),
+                        SizedBox(
+                          height: 40.h,
+                          child: const VerticalDivider(
+                            width: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Column(
@@ -65,37 +88,12 @@ class CourseCard extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        backgroundColor: Colors.white,
-                        content: Text(
-                          'Are you sure you want to delete ${courseModel.name} course?',
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              context
-                                  .read<GpaCubit>()
-                                  .deleteCourse(courseModel.id!);
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Delete'),
-                          ),
-                        ],
-                      ),
-                    );
+                    showDeleteDialog(context, courseModel);
                   },
-                  icon: const Icon(Icons.delete_outline),
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    color: Colors.red,
+                  ),
                 ),
               ],
             ),
@@ -104,4 +102,57 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
+}
+
+showDeleteDialog(BuildContext context, CourseModel courseModel) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.white,
+      title: Text(
+        'Are you sure you want to delete',
+        style: AppTextStyles.font16BlackMedium,
+      ),
+      content: Text(
+        '${courseModel.name} course?',
+        style: AppTextStyles.font14GreyRegular,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          style: const ButtonStyle(
+            padding: WidgetStatePropertyAll(
+              EdgeInsets.zero,
+            ),
+          ),
+          child: Text(
+            'Cancel',
+            style: AppTextStyles.font14BlackMedium,
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            context.read<GpaCubit>().deleteCourse(courseModel.id!);
+            Navigator.pop(context);
+          },
+          style: const ButtonStyle(
+            padding: WidgetStatePropertyAll(
+              EdgeInsets.zero,
+            ),
+          ),
+          child: Text(
+            'Delete',
+            style: AppTextStyles.font14BlackMedium.copyWith(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

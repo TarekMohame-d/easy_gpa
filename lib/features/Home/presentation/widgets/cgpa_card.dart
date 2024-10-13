@@ -1,8 +1,9 @@
 import 'package:easy_gpa/core/helpers/constants.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
+import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CGPACard extends StatelessWidget {
@@ -47,20 +48,15 @@ class CGPACard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Container(
-                    width: 60.w,
-                    height: 60.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.lightOrange,
+                  FloatingActionButton(
+                    heroTag: 'unique_tag_1',
+                    onPressed: () {
+                      context.read<GpaCubit>().generateAndSavePdf();
+                    },
+                    child: const Icon(
+                      Icons.download,
                     ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.download,
-                      ),
-                    ),
-                  ),
+                  )
                 ],
               ),
             ),

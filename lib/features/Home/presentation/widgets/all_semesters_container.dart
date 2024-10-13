@@ -14,22 +14,27 @@ class AllSemestersContainer extends StatelessWidget {
       height: screenHeight(context) * 0.3,
       width: screenWidth(context) * 0.35,
       color: AppColors.lightOrange,
-      child: InkWell(
-        onTap: () {
-          context.pushNamed(Routes.semestersScreen);
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'All',
-              style: AppTextStyles.font16BlackBold,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: () {
+              context.pushNamed(Routes.semestersScreen);
+            },
+            child: Row(
+              children: [
+                Text(
+                  'All',
+                  style: AppTextStyles.font16BlackBold,
+                ),
+                const Icon(
+                  Icons.expand_more_rounded,
+                ),
+              ],
             ),
-            const Icon(
-              Icons.expand_more_rounded,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

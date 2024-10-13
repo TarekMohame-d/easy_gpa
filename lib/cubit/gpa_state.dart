@@ -26,3 +26,7 @@ final class GetSemesterCoursesSuccess extends GpaState {}
 final class UpdateCourseSuccess extends GpaState {}
 
 final class DeleteCourseSuccess extends GpaState {}
+
+final class SavePdfSuccess extends GpaState {}
+
+final class SavePdfFailure extends GpaState {}

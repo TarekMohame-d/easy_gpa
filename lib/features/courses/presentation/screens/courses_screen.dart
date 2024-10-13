@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
@@ -21,8 +20,6 @@ class CoursesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: AppColors.scaffoldLightColor,
         leading: IconButton(
           onPressed: () {
             context.pop();
@@ -31,7 +28,7 @@ class CoursesScreen extends StatelessWidget {
         ),
         title: Text(
           'Semester $semesterNumber',
-          style: AppTextStyles.font20lightOrangeBold,
+          style: AppTextStyles.font20BlackMedium,
         ),
         centerTitle: true,
       ),

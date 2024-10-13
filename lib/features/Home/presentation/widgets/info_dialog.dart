@@ -1,4 +1,3 @@
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -7,10 +6,11 @@ void customDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('GPA Scale'),
-        backgroundColor: AppColors.scaffoldLightColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        contentPadding: const EdgeInsets.all(10),
+        title: Text(
+          'GPA Scale',
+          style: AppTextStyles.font20BlackBold,
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 10),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,15 +20,17 @@ void customDialog(BuildContext context) {
               children: [
                 Text(
                   'Grade',
-                  style: AppTextStyles.font16BlackBold,
+                  style: AppTextStyles.font16BlackMedium,
                 ),
                 Text(
-                  'GPA',
-                  style: AppTextStyles.font16BlackBold,
+                  'Point',
+                  style: AppTextStyles.font16BlackMedium,
                 ),
               ],
             ),
-            const Divider(),
+            const Divider(
+              height: 4,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -53,7 +55,7 @@ Widget generateGPAItem(bool grade) {
           String text = grade ? gpaScale[index].$1 : gpaScale[index].$2;
           return Text(
             text,
-            style: AppTextStyles.font14BLackRegular,
+            style: AppTextStyles.font14BlackRegular,
           );
         },
       ),

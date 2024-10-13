@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
@@ -20,7 +19,46 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<GpaCubit, GpaState>(
+      body: BlocConsumer<GpaCubit, GpaState>(
+        listenWhen: (previous, current) =>
+            current is SavePdfSuccess || current is SavePdfFailure,
+        listener: (context, state) {
+          if (state is SavePdfSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'PDF saved successfully',
+                  style: AppTextStyles.font14GreyRegular,
+                ),
+                backgroundColor: const Color(0xff323232),
+                duration: const Duration(seconds: 1, milliseconds: 500),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          } else if (state is SavePdfFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Failed to save PDF',
+                  style: AppTextStyles.font14GreyRegular,
+                ),
+                backgroundColor: const Color(0xff323232),
+                duration: const Duration(seconds: 1, milliseconds: 500),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        },
         buildWhen: (previous, current) =>
             current is AddCourseSuccess ||
             current is UpdateCourseSuccess ||
@@ -47,7 +85,9 @@ class HomeScreen extends StatelessWidget {
                           left: 20.w,
                           child: Text(
                             'Grade Point\nAverage',
-                            style: AppTextStyles.font20BlackBold,
+                            style: AppTextStyles.font20BlackBold.copyWith(
+                              fontSize: 28.sp,
+                            ),
                           ),
                         ),
                         Positioned(
@@ -118,8 +158,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           customDialog(context);
         },
-        shape: const CircleBorder(),
-        backgroundColor: AppColors.lightOrange,
+        heroTag: 'unique_tag_2',
         child: const Icon(
           Icons.info_outline_rounded,
         ),

@@ -32,7 +32,6 @@ class CourseCardTemplate extends StatelessWidget {
               elevation: 5,
               margin: const EdgeInsets.symmetric(horizontal: 12),
               behavior: SnackBarBehavior.floating,
-              
             ),
           );
         }

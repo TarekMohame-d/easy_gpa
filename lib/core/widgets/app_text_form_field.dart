@@ -1,4 +1,3 @@
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,8 @@ class AppTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
+  final InputBorder? errorBorder;
+  final InputBorder? focusedErrorBorder;
   final TextStyle? inputTextStyle;
   final TextStyle? hintStyle;
   final String hintText;
@@ -16,6 +17,7 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final Function(String?) validator;
   final TextInputType? keyboardType;
+
   const AppTextFormField({
     super.key,
     this.contentPadding,
@@ -30,6 +32,8 @@ class AppTextFormField extends StatelessWidget {
     this.controller,
     required this.validator,
     this.keyboardType = TextInputType.text,
+    this.errorBorder,
+    this.focusedErrorBorder,
   });
 
   @override
@@ -43,36 +47,10 @@ class AppTextFormField extends StatelessWidget {
               horizontal: 20.w,
               vertical: 18.h,
             ),
-        focusedBorder: focusedBorder ??
-            OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: AppColors.lightOrange,
-                width: 1.3,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-        enabledBorder: enabledBorder ??
-            OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1.3,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 1.3,
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 1.3,
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
+        focusedBorder: focusedBorder,
+        enabledBorder: enabledBorder,
+        errorBorder: errorBorder,
+        focusedErrorBorder: focusedErrorBorder,
         hintStyle: hintStyle ?? AppTextStyles.font14GreyRegular,
         hintText: hintText,
         suffixIcon: suffixIcon,
@@ -81,7 +59,7 @@ class AppTextFormField extends StatelessWidget {
       ),
       keyboardType: keyboardType,
       obscureText: isObscureText ?? false,
-      style: inputTextStyle ?? AppTextStyles.font14BLackRegular,
+      style: inputTextStyle ?? AppTextStyles.font14BlackRegular,
       validator: (value) {
         return validator(value);
       },

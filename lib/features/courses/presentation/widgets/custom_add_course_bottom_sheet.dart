@@ -26,8 +26,6 @@ customAddCourseBottomSheet(BuildContext context,
 
   return showModalBottomSheet(
     context: context,
-    backgroundColor: AppColors.scaffoldLightColor,
-    elevation: 5,
     isScrollControlled: true,
     useSafeArea: true,
     builder: (context) {
@@ -40,12 +38,6 @@ customAddCourseBottomSheet(BuildContext context,
               height: screenHeight(context) * 0.5,
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 12.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.r),
-                  topRight: Radius.circular(12.r),
-                ),
-              ),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -74,7 +66,7 @@ customAddCourseBottomSheet(BuildContext context,
                         }
                       },
                       backGroundColor: Colors.white,
-                      inputTextStyle: AppTextStyles.font14BLackRegular,
+                      inputTextStyle: AppTextStyles.font14BlackRegular,
                     ),
                     verticalSpace(12),
                     AppTextFormField(
@@ -88,14 +80,14 @@ customAddCourseBottomSheet(BuildContext context,
                         if (parsed == null) {
                           return 'Course credits must be an integer';
                         }
-                        if (parsed > 5) {
-                          return 'Course credits cannot be greater than 5';
+                        if (parsed > 9) {
+                          return 'Course credits cannot be greater than 8';
                         }
                         return null;
                       },
                       backGroundColor: Colors.white,
                       keyboardType: TextInputType.number,
-                      inputTextStyle: AppTextStyles.font14BLackRegular,
+                      inputTextStyle: AppTextStyles.font14BlackRegular,
                     ),
                     verticalSpace(12),
                     DropdownButtonHideUnderline(
@@ -105,43 +97,12 @@ customAddCourseBottomSheet(BuildContext context,
                         ),
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
-                            isDense: true,
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: 20.w,
                               vertical: 18.h,
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.lightOrange,
-                                width: 1.3,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                                width: 1.3,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.red,
-                                width: 1.3,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.red,
-                                width: 1.3,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            hintStyle: AppTextStyles.font14GreyRegular,
-                            filled: true,
-                            fillColor: Colors.white,
                           ),
+                          style: AppTextStyles.font14BlackRegular,
                           value: selectedGrade,
                           validator: (value) {
                             if (value == null) {
@@ -168,35 +129,40 @@ customAddCourseBottomSheet(BuildContext context,
                       ),
                     ),
                     verticalSpace(24),
-                    AppTextButton(
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          CourseModel course = CourseModel(
-                            name: courseNameController.text,
-                            credits: int.parse(courseCreditsController.text),
-                            semester: editCourse?.semester ?? semester!,
-                            grade: selectedGrade!,
-                            id: editCourse?.id,
-                          );
-                          if (editCourse == null) {
-                            await context.read<GpaCubit>().addCourse(course);
-                          } else {
-                            bool hasChanges = editCourse.name != course.name ||
-                                editCourse.credits != course.credits ||
-                                editCourse.grade != course.grade;
-                            if (hasChanges) {
-                              await context
-                                  .read<GpaCubit>()
-                                  .updateCourse(course);
+                    Align(
+                      alignment: Alignment.center,
+                      child: AppTextButton(
+                        buttonWidth: screenWidth(context) * 0.5,
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            CourseModel course = CourseModel(
+                              name: courseNameController.text,
+                              credits: int.parse(courseCreditsController.text),
+                              semester: editCourse?.semester ?? semester!,
+                              grade: selectedGrade!,
+                              id: editCourse?.id,
+                            );
+                            if (editCourse == null) {
+                              await context.read<GpaCubit>().addCourse(course);
+                            } else {
+                              bool hasChanges =
+                                  editCourse.name != course.name ||
+                                      editCourse.credits != course.credits ||
+                                      editCourse.grade != course.grade;
+                              if (hasChanges) {
+                                await context
+                                    .read<GpaCubit>()
+                                    .updateCourse(course);
+                              }
                             }
+                            context.pop();
                           }
-                          context.pop();
-                        }
-                      },
-                      buttonText:
-                          editCourse == null ? 'Add Course' : 'Update Course',
-                      textStyle: AppTextStyles.font14BLackRegular,
-                      backgroundColor: AppColors.lightOrange,
+                        },
+                        buttonText:
+                            editCourse == null ? 'Add Course' : 'Update Course',
+                        textStyle: AppTextStyles.font14WhiteMedium,
+                        backgroundColor: AppColors.lightOrange,
+                      ),
                     ),
                   ],
                 ),
