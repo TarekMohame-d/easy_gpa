@@ -1,5 +1,6 @@
 import 'package:easy_gpa/core/functions/grade_to_number.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/features/Home/domain/usecases/save_pdf_use_case.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/delete_course_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/get_all_courses_use_case.dart';
@@ -18,6 +19,7 @@ class GpaCubit extends Cubit<GpaState> {
     this._getSemesterCoursesUseCase,
     this._updateCourseUseCase,
     this._deleteCourseUseCase,
+    this._savePdfUseCase,
   ) : super(GpaInitial());
 
   final InsertCourseUseCase _addCourseUseCase;
@@ -25,6 +27,7 @@ class GpaCubit extends Cubit<GpaState> {
   final GetSemesterCoursesUseCase _getSemesterCoursesUseCase;
   final UpdateCourseUseCase _updateCourseUseCase;
   final DeleteCourseUseCase _deleteCourseUseCase;
+  final SavePdfUseCase _savePdfUseCase;
 
   List<CourseModel> allCourses = [];
 
@@ -56,23 +59,29 @@ class GpaCubit extends Cubit<GpaState> {
     }
   }
 
-  Future<double?> calculateSemesterGPA(int semesterId) async {
+  Future<(double? gpa, int? creditHours)> calculateSemesterData(
+      int semesterId) async {
     List<CourseModel> semesterCourses = await getSemesterCourses(semesterId);
 
-    if (semesterCourses.isNullOrEmpty()) return null;
+    if (semesterCourses.isNullOrEmpty()) return (null, null);
     double qualityPoints = 0;
     for (var course in semesterCourses) {
       qualityPoints += course.credits * convertGradeToNumber(course.grade);
     }
-    return qualityPoints /
+    int creditHours =
         semesterCourses.fold(0, (sum, course) => sum + course.credits);
+    double gpa = qualityPoints / creditHours;
+
+    return (gpa, creditHours);
   }
 
   void calculateAllCreditHours() {
+    allCreditHours = 0;
     allCreditHours = allCourses.fold(0, (sum, course) => sum + course.credits);
   }
 
   void calculateCGPA() {
+    cGPA = 0.0;
     if (allCourses.isEmpty) {
       cGPA = 0.0;
       return;
@@ -136,6 +145,15 @@ class GpaCubit extends Cubit<GpaState> {
       allCourses.removeWhere((course) => course.id == courseId);
       calculateHomeScreenData();
       emit(DeleteCourseSuccess());
+    }
+  }
+
+  Future<void> generateAndSavePdf() async {
+    final result = await _savePdfUseCase.call(allCourses, cGPA, allCreditHours);
+    if (result) {
+      emit(SavePdfSuccess());
+    } else {
+      emit(SavePdfFailure());
     }
   }
 }

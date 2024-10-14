@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/semesters/presentation/widgets/semesters_card.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,6 @@ class SemestersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: AppColors.scaffoldLightColor,
         leading: IconButton(
           onPressed: () {
             context.pop();
@@ -37,15 +34,17 @@ class SemestersScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: 12,
                 itemBuilder: (context, index) {
-                  return FutureBuilder<double?>(
+                  return FutureBuilder<(double? gpa, int? creditHours)>(
                     future: context
                         .read<GpaCubit>()
-                        .calculateSemesterGPA(index + 1),
+                        .calculateSemesterData(index + 1),
                     builder: (context, snapshot) {
-                      double? gpa = snapshot.data;
+                      double? gpa = snapshot.data?.$1;
+                      int? creditHours = snapshot.data?.$2;
                       return SemestersCard(
                         index: index + 1,
                         gpa: gpa,
+                        creditHours: creditHours,
                       );
                     },
                   );

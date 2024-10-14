@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/widgets/custom_snack_bar.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/all_semesters_container.dart';
@@ -20,7 +20,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<GpaCubit, GpaState>(
+      body: BlocConsumer<GpaCubit, GpaState>(
+        listenWhen: (previous, current) =>
+            current is SavePdfSuccess || current is SavePdfFailure,
+        listener: (context, state) {
+          if (state is SavePdfSuccess) {
+            customSnackBar(context, 'PDF saved successfully');
+          } else if (state is SavePdfFailure) {
+            customSnackBar(context, 'Failed to save PDF');
+          }
+        },
         buildWhen: (previous, current) =>
             current is AddCourseSuccess ||
             current is UpdateCourseSuccess ||
@@ -47,7 +56,9 @@ class HomeScreen extends StatelessWidget {
                           left: 20.w,
                           child: Text(
                             'Grade Point\nAverage',
-                            style: AppTextStyles.font20BlackBold,
+                            style: AppTextStyles.font20BlackBold.copyWith(
+                              fontSize: 28.sp,
+                            ),
                           ),
                         ),
                         Positioned(
@@ -118,8 +129,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           customDialog(context);
         },
-        shape: const CircleBorder(),
-        backgroundColor: AppColors.lightOrange,
+        heroTag: 'unique_tag_2',
         child: const Icon(
           Icons.info_outline_rounded,
         ),
