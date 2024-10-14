@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/widgets/custom_snack_bar.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/all_semesters_container.dart';
@@ -24,39 +25,9 @@ class HomeScreen extends StatelessWidget {
             current is SavePdfSuccess || current is SavePdfFailure,
         listener: (context, state) {
           if (state is SavePdfSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'PDF saved successfully',
-                  style: AppTextStyles.font14GreyRegular,
-                ),
-                backgroundColor: const Color(0xff323232),
-                duration: const Duration(seconds: 1, milliseconds: 500),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            customSnackBar(context, 'PDF saved successfully');
           } else if (state is SavePdfFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Failed to save PDF',
-                  style: AppTextStyles.font14GreyRegular,
-                ),
-                backgroundColor: const Color(0xff323232),
-                duration: const Duration(seconds: 1, milliseconds: 500),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            customSnackBar(context, 'Failed to save PDF');
           }
         },
         buildWhen: (previous, current) =>

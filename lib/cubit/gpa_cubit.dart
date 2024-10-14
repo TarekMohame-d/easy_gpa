@@ -76,10 +76,12 @@ class GpaCubit extends Cubit<GpaState> {
   }
 
   void calculateAllCreditHours() {
+    allCreditHours = 0;
     allCreditHours = allCourses.fold(0, (sum, course) => sum + course.credits);
   }
 
   void calculateCGPA() {
+    cGPA = 0.0;
     if (allCourses.isEmpty) {
       cGPA = 0.0;
       return;
