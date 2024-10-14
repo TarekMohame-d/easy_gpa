@@ -5,7 +5,7 @@ class InsertCourseUseCase {
   final CoursesRepo _coursesRepo;
 
   InsertCourseUseCase(this._coursesRepo);
-  Future<bool> call(CourseModel course) async {
+  Future<(bool, int?)> call(CourseModel course) async {
     return await _coursesRepo.insertCourse(course);
   }
 }

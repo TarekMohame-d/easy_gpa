@@ -9,7 +9,7 @@ class CoursesRepoImpl implements CoursesRepo {
   final CoursesLocalDataSource _coursesLocalDataSource;
 
   @override
-  Future<bool> insertCourse(CourseModel course) async {
+  Future<(bool, int?)> insertCourse(CourseModel course) async {
     return await _coursesLocalDataSource.insertCourse(course);
   }
 

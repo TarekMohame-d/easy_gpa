@@ -25,7 +25,6 @@ class EasyGPA extends StatelessWidget {
           getIt(),
           getIt(),
           getIt(),
-          getIt(),
         ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

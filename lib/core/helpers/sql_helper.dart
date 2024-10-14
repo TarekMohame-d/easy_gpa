@@ -34,17 +34,17 @@ class SQLHelper {
   }
 
   /// Add Item
-  static Future<bool> insert(Map<String, Object?> values) async {
+  static Future<(bool, int?)> insert(Map<String, Object?> values) async {
     try {
-      await _db!.insert(
+      int index = await _db!.insert(
         _tableName,
         values,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-      return true;
+      return (true, index);
     } catch (e) {
       log("Error while inserting: $e");
-      return false;
+      return (false, null);
     }
   }
 
