@@ -1,5 +1,5 @@
-import 'package:easy_gpa/core/functions/grade_to_number.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/features/Home/domain/usecases/save_pdf_use_case.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/delete_course_use_case.dart';
@@ -56,14 +56,14 @@ class GpaCubit extends Cubit<GpaState> {
     }
   }
 
-  Future<(double? gpa, int? creditHours)> calculateSemesterData(
-      int semesterId) async {
-    List<CourseModel> semesterCourses = await getSemesterCourses(semesterId);
+  (double? gpa, int? creditHours) calculateSemesterData(int semesterId) {
+    List<CourseModel> semesterCourses = getSemesterCourses(semesterId);
 
     if (semesterCourses.isNullOrEmpty()) return (null, null);
     double qualityPoints = 0;
     for (var course in semesterCourses) {
-      qualityPoints += course.credits * convertGradeToNumber(course.grade);
+      qualityPoints +=
+          course.credits * KHelperFunctions.convertGradeToNumber(course.grade);
     }
     int creditHours =
         semesterCourses.fold(0, (sum, course) => sum + course.credits);
@@ -86,7 +86,8 @@ class GpaCubit extends Cubit<GpaState> {
 
     double qualityPoints = 0;
     for (var course in allCourses) {
-      qualityPoints += course.credits * convertGradeToNumber(course.grade);
+      qualityPoints +=
+          course.credits * KHelperFunctions.convertGradeToNumber(course.grade);
     }
     cGPA = allCreditHours > 0 ? qualityPoints / allCreditHours : 0.0;
   }

@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/core/constants/text_strings.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/widgets/custom_snack_bar.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               return Column(
                 children: [
                   SizedBox(
-                    height: screenHeight(context) * 0.4,
+                    height: KHelperFunctions.getScreenHeight(context) * 0.4,
                     child: Stack(
                       children: [
                         const Align(
@@ -55,8 +56,8 @@ class HomeScreen extends StatelessWidget {
                           top: 50.h,
                           left: 20.w,
                           child: Text(
-                            'Grade Point\nAverage',
-                            style: AppTextStyles.font20BlackBold.copyWith(
+                            KTextStrings.homeHeaderText,
+                            style: AppTextStyles.font20BlackSemiBold.copyWith(
                               fontSize: 28.sp,
                             ),
                           ),
@@ -80,8 +81,8 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Grade Statistics',
-                            style: AppTextStyles.font20BlackBold,
+                            KTextStrings.gradeStatistics,
+                            style: AppTextStyles.font20BlackSemiBold,
                           ),
                           Expanded(
                             child: Stack(
@@ -98,7 +99,9 @@ class HomeScreen extends StatelessWidget {
                                 Align(
                                   alignment: Alignment.center,
                                   child: Container(
-                                    width: screenWidth(context) * 0.8,
+                                    width: KHelperFunctions.getScreenWidth(
+                                            context) *
+                                        0.8,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(

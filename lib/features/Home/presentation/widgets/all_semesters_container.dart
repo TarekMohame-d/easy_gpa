@@ -1,7 +1,7 @@
-import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/core/constants/colors.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -11,30 +11,28 @@ class AllSemestersContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: screenHeight(context) * 0.3,
-      width: screenWidth(context) * 0.35,
-      color: AppColors.lightOrange,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            onTap: () {
-              context.pushNamed(Routes.semestersScreen);
-            },
-            child: Row(
-              children: [
-                Text(
-                  'All',
-                  style: AppTextStyles.font16BlackBold,
-                ),
-                const Icon(
-                  Icons.expand_more_rounded,
-                ),
-              ],
-            ),
+      height: KHelperFunctions.getScreenHeight(context) * 0.3,
+      width: KHelperFunctions.getScreenWidth(context) * 0.35,
+      color: KColors.lightOrange,
+      child: Center(
+        child: InkWell(
+          onTap: () {
+            context.pushNamed(Routes.semestersScreen);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'All',
+                style: AppTextStyles.font16BlackBold,
+              ),
+              const Icon(
+                Icons.expand_more_rounded,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

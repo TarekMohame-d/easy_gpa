@@ -1,6 +1,6 @@
+import 'package:easy_gpa/core/constants/colors.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -69,7 +69,7 @@ class SemestersCard extends StatelessWidget {
                   gpa != null ? gpa!.toStringAsFixed(2) : 'N/A',
                   style: AppTextStyles.font14BlackRegular,
                 ),
-                progressColor: AppColors.lightOrange,
+                progressColor: KColors.lightOrange,
                 arcBackgroundColor: Colors.grey,
                 arcType: ArcType.FULL,
               ),

@@ -1,4 +1,4 @@
-import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/pie_sections.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -24,7 +24,7 @@ class _GradeStatisticsState extends State<GradeStatistics> {
             swapAnimationCurve: Curves.easeInOut,
             swapAnimationDuration: const Duration(milliseconds: 300),
             PieChartData(
-              centerSpaceRadius: screenWidth(context) * 0.2,
+              centerSpaceRadius: KHelperFunctions.getScreenWidth(context) * 0.2,
               sectionsSpace: 3,
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {

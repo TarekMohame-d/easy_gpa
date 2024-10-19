@@ -8,7 +8,7 @@ void customDialog(BuildContext context) {
       return AlertDialog(
         title: Text(
           'GPA Scale',
-          style: AppTextStyles.font20BlackBold,
+          style: AppTextStyles.font20BlackSemiBold,
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 10),
         content: Column(
