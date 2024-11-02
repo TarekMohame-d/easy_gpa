@@ -33,7 +33,6 @@ class SemestersScreen extends StatelessWidget {
               log('build semesters screen');
               return ListView.builder(
                 itemCount: 12,
-                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final result =
                       context.read<GpaCubit>().calculateSemesterData(index + 1);

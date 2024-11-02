@@ -81,8 +81,8 @@ List<PieChartSectionData> creatingPieSections(
                 '${percentage.toStringAsFixed(1)}%',
                 style: TextStyle(
                   color: Colors.black.withOpacity(opacity),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(

@@ -1,7 +1,7 @@
-import 'package:easy_gpa/core/constants/colors.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/app_text_button.dart';
 import 'package:easy_gpa/core/widgets/app_text_form_field.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
@@ -65,7 +65,7 @@ customAddCourseBottomSheet(BuildContext context,
                           return 'Please enter course name';
                         }
                       },
-                      inputTextStyle: AppTextStyles.font14BlackRegular,
+                      inputTextStyle: KTextStyles.font14BlackRegular,
                     ),
                     verticalSpace(12),
                     KTextFormField(
@@ -79,13 +79,13 @@ customAddCourseBottomSheet(BuildContext context,
                         if (parsed == null) {
                           return 'Course credits must be an integer';
                         }
-                        if (parsed > 9) {
+                        if (parsed > 8) {
                           return 'Course credits cannot be greater than 8';
                         }
                         return null;
                       },
                       keyboardType: TextInputType.number,
-                      inputTextStyle: AppTextStyles.font14BlackRegular,
+                      inputTextStyle: KTextStyles.font14BlackRegular,
                     ),
                     verticalSpace(12),
                     DropdownButtonHideUnderline(
@@ -100,7 +100,7 @@ customAddCourseBottomSheet(BuildContext context,
                               vertical: 18.h,
                             ),
                           ),
-                          style: AppTextStyles.font14BlackRegular,
+                          style: KTextStyles.font14BlackRegular,
                           value: selectedGrade,
                           validator: (value) {
                             if (value == null) {
@@ -115,7 +115,7 @@ customAddCourseBottomSheet(BuildContext context,
                           },
                           hint: Text(
                             'Grade',
-                            style: AppTextStyles.font14GreyRegular,
+                            style: KTextStyles.font14GreyRegular,
                           ),
                           items: grades.map((String grade) {
                             return DropdownMenuItem<String>(
@@ -159,7 +159,7 @@ customAddCourseBottomSheet(BuildContext context,
                         },
                         buttonText:
                             editCourse == null ? 'Add Course' : 'Update Course',
-                        textStyle: AppTextStyles.font14WhiteMedium,
+                        textStyle: KTextStyles.font14WhiteMedium,
                         backgroundColor: KColors.lightOrange,
                       ),
                     ),

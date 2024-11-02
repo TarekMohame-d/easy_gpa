@@ -38,7 +38,7 @@ class CourseCard extends StatelessWidget {
                         courseModel.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.font16BlackRegular,
+                        style: KTextStyles.font16BlackRegular,
                       ),
                     ),
                     const Divider(
@@ -52,7 +52,7 @@ class CourseCard extends StatelessWidget {
                           courseModel.grade,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.font14BlackRegular,
+                          style: KTextStyles.font14BlackRegular,
                         ),
                         SizedBox(
                           height: 40.h,
@@ -63,7 +63,7 @@ class CourseCard extends StatelessWidget {
                         ),
                         Text(
                           courseModel.credits.toString(),
-                          style: AppTextStyles.font14BlackRegular,
+                          style: KTextStyles.font14BlackRegular,
                         ),
                         SizedBox(
                           height: 40.h,
@@ -111,11 +111,11 @@ showDeleteDialog(BuildContext context, CourseModel courseModel) {
       backgroundColor: Colors.white,
       title: Text(
         'Are you sure you want to delete',
-        style: AppTextStyles.font16BlackMedium,
+        style: KTextStyles.font16BlackMedium,
       ),
       content: Text(
         '${courseModel.name} course?',
-        style: AppTextStyles.font14GreyRegular,
+        style: KTextStyles.font14GreyRegular,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -132,12 +132,12 @@ showDeleteDialog(BuildContext context, CourseModel courseModel) {
           ),
           child: Text(
             'Cancel',
-            style: AppTextStyles.font14BlackMedium,
+            style: KTextStyles.font14BlackMedium,
           ),
         ),
         TextButton(
-          onPressed: () {
-            context.read<GpaCubit>().deleteCourse(courseModel.id!);
+          onPressed: () async {
+            await context.read<GpaCubit>().deleteCourse(courseModel.id!);
             Navigator.pop(context);
           },
           style: const ButtonStyle(
@@ -147,7 +147,7 @@ showDeleteDialog(BuildContext context, CourseModel courseModel) {
           ),
           child: Text(
             'Delete',
-            style: AppTextStyles.font14BlackMedium.copyWith(
+            style: KTextStyles.font14BlackMedium.copyWith(
               color: Colors.red,
             ),
           ),

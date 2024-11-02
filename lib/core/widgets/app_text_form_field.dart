@@ -31,9 +31,10 @@ class KTextFormField extends StatelessWidget {
               vertical: 18.h,
             ),
         hintText: hintText,
+        hintStyle: KTextStyles.font14GreyRegular,
       ),
       keyboardType: keyboardType,
-      style: inputTextStyle ?? AppTextStyles.font14BlackRegular,
+      style: inputTextStyle ?? KTextStyles.font14BlackRegular,
       validator: (value) {
         return validator(value);
       },

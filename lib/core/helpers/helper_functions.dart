@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class KHelperFunctions {
   KHelperFunctions._();
 
- static double convertGradeToNumber(String grade) {
+  static double convertGradeToNumber(String grade) {
     switch (grade) {
       case 'A+':
         return 4.0;
@@ -36,15 +36,11 @@ class KHelperFunctions {
     }
   }
 
-  static Size getScreenSize(BuildContext context) {
-    return MediaQuery.of(context).size;
-  }
-
   static double getScreenHeight(BuildContext context) {
-    return MediaQuery.of(context).size.height;
+    return MediaQuery.sizeOf(context).height;
   }
 
   static double getScreenWidth(BuildContext context) {
-    return MediaQuery.of(context).size.width;
+    return MediaQuery.sizeOf(context).width;
   }
 }

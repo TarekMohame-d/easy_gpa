@@ -6,14 +6,6 @@ class CoursesLocalDataSource {
     return await SQLHelper.insert(course.toMap());
   }
 
-  Future<List<Map<String, dynamic>>> getAllCourses() async {
-    return await SQLHelper.getAllDBItems();
-  }
-
-  Future<List<Map<String, dynamic>>> getSemesterCourses(int semesterId) async {
-    return await SQLHelper.getItems(semesterId);
-  }
-
   Future<bool> updateCourse(CourseModel course) async {
     return await SQLHelper.update(course.toMap());
   }

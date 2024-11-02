@@ -1,8 +1,8 @@
-import 'package:easy_gpa/core/constants/colors.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class AllSemestersContainer extends StatelessWidget {
@@ -20,12 +20,11 @@ class AllSemestersContainer extends StatelessWidget {
             context.pushNamed(Routes.semestersScreen);
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'All',
-                style: AppTextStyles.font16BlackBold,
+                style: KTextStyles.font16BlackBold,
               ),
               const Icon(
                 Icons.expand_more_rounded,

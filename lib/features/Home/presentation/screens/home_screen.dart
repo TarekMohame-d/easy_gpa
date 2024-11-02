@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:easy_gpa/core/constants/text_strings.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
@@ -56,8 +55,8 @@ class HomeScreen extends StatelessWidget {
                           top: 50.h,
                           left: 20.w,
                           child: Text(
-                            KTextStrings.homeHeaderText,
-                            style: AppTextStyles.font20BlackSemiBold.copyWith(
+                            'Grade Point\nAverage',
+                            style: KTextStyles.font20BlackSemiBold.copyWith(
                               fontSize: 28.sp,
                             ),
                           ),
@@ -81,8 +80,8 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            KTextStrings.gradeStatistics,
-                            style: AppTextStyles.font20BlackSemiBold,
+                            'Grade Statistics',
+                            style: KTextStyles.font20BlackSemiBold,
                           ),
                           Expanded(
                             child: Stack(

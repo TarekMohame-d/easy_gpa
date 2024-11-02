@@ -1,7 +1,6 @@
-import 'package:easy_gpa/core/constants/colors.dart';
-import 'package:easy_gpa/core/constants/text_strings.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
@@ -39,12 +38,12 @@ class CGPACard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          KTextStrings.allSemesters,
-                          style: AppTextStyles.font14GreyRegular,
+                          'ALL SEMESTERS',
+                          style: KTextStyles.font14GreyRegular,
                         ),
                         Text(
                           '${cGPA.toStringAsFixed(2)} CGPA',
-                          style: AppTextStyles.font16BlackSemiBold,
+                          style: KTextStyles.font16BlackSemiBold,
                         ),
                       ],
                     ),
@@ -82,11 +81,11 @@ class CGPACard extends StatelessWidget {
                     children: [
                       Text(
                         'Total Credit Hours',
-                        style: AppTextStyles.font14GreyRegular,
+                        style: KTextStyles.font14GreyRegular,
                       ),
                       Text(
                         allCreditHours.toString(),
-                        style: AppTextStyles.font16BlackSemiBold,
+                        style: KTextStyles.font16BlackSemiBold,
                       ),
                     ],
                   ),

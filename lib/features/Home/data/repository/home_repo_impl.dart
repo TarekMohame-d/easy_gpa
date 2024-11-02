@@ -2,8 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:easy_gpa/core/device/device_info_helper.dart';
+import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/features/Home/domain/repository/home_repo.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
+import 'package:easy_gpa/features/home/data/data_sources/home_local_data_source.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -12,6 +14,10 @@ import 'package:pdf/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeRepoImpl implements HomeRepo {
+  final HomeLocalDataSource _homeLocalDataSource;
+
+  HomeRepoImpl(this._homeLocalDataSource);
+
   @override
   Future<bool> generateAndSavePdf(
     List<CourseModel> courses,
@@ -158,4 +164,17 @@ class HomeRepoImpl implements HomeRepo {
 
     return status.isGranted;
   }
+  
+  @override
+  Future<List<CourseModel>> getAllCourses() async{
+    List<Map<String, dynamic>> courses =
+        await _homeLocalDataSource.getAllCourses();
+    List<CourseModel>? coursesList;
+    if (courses.isNotEmpty) {
+      coursesList = courses.map((e) => CourseModel.fromMap(e)).toList();
+    }
+    return coursesList.isNullOrEmpty() ? [] : coursesList!;
+  }
+
+
 }

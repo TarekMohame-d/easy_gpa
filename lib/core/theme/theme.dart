@@ -5,9 +5,11 @@ import 'package:easy_gpa/core/theme/custom_themes/dialog_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/elevated_button_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/floating_action_button_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/input_decoration_theme.dart';
+import 'package:easy_gpa/core/theme/custom_themes/snack_bar_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../constants/colors.dart';
+import 'colors.dart';
 
 class KAppTheme {
   KAppTheme._();
@@ -31,5 +33,18 @@ class KAppTheme {
     dialogTheme: KDialogTheme.dialogTheme,
     bottomSheetTheme: KBottomSheetTheme.bottomSheetTheme,
     inputDecorationTheme: KInputDecorationTheme.inputDecorationTheme,
+    snackBarTheme: KSnackBarTheme.snackBarTheme,
   );
+
+  static void setStatusBarColor() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: KColors.scaffoldLightColor,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: KColors.scaffoldLightColor,
+      ),
+    );
+  }
 }

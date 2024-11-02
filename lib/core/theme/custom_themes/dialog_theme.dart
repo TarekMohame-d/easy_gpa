@@ -1,4 +1,4 @@
-import 'package:easy_gpa/core/constants/colors.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class KDialogTheme {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FontWeightHelper {
-  FontWeightHelper._();
+class KFontWeightHelper {
+  KFontWeightHelper._();
   static const FontWeight thin = FontWeight.w100;
   static const FontWeight extraLight = FontWeight.w200;
   static const FontWeight light = FontWeight.w300;

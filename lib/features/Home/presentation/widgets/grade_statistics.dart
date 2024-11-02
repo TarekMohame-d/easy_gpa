@@ -47,7 +47,7 @@ class _GradeStatisticsState extends State<GradeStatistics> {
         : Center(
             child: Text(
               'No Grades Available Yet',
-              style: AppTextStyles.font16BlackBold,
+              style: KTextStyles.font16BlackBold,
             ),
           );
   }
