@@ -8,8 +8,9 @@ class KSnackBarTheme {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(6),
     ),
-    
     elevation: 5,
+    dismissDirection: DismissDirection.down,
+    
     behavior: SnackBarBehavior.floating,
   );
 }

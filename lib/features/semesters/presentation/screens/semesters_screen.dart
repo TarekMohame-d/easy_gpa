@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/semesters/presentation/widgets/semesters_card.dart';
@@ -26,11 +24,10 @@ class SemestersScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: BlocBuilder<GpaCubit, GpaState>(
             buildWhen: (previous, current) =>
-                current is AddCourseSuccess ||
+                current is InsertCourseSuccess ||
                 current is UpdateCourseSuccess ||
                 current is DeleteCourseSuccess,
             builder: (context, state) {
-              log('build semesters screen');
               return ListView.builder(
                 itemCount: 12,
                 itemBuilder: (context, index) {

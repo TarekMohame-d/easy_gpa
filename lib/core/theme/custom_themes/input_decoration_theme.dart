@@ -5,32 +5,42 @@ class KInputDecorationTheme {
   KInputDecorationTheme._();
 
   static final inputDecorationTheme = InputDecorationTheme(
-    isDense: true,
+    // isDense: true,
+    labelStyle: const TextStyle(
+      color: KColors.black,
+    ),
     focusedBorder: OutlineInputBorder(
-      borderSide: const BorderSide(
-        color: KColors.lightOrange,
-        width: 1.3,
+      borderSide: BorderSide(
+        color: KColors.lightOrange.withOpacity(0.6),
+        width: 1.2,
       ),
       borderRadius: BorderRadius.circular(12),
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: const BorderSide(
-        color: Colors.grey,
-        width: 1.3,
+      borderSide: BorderSide(
+        color: KColors.black.withOpacity(0.6),
+        width: 1.2,
       ),
       borderRadius: BorderRadius.circular(12),
     ),
     errorBorder: OutlineInputBorder(
       borderSide: const BorderSide(
         color: Colors.red,
-        width: 1.3,
+        width: 1.2,
       ),
       borderRadius: BorderRadius.circular(12),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderSide: const BorderSide(
         color: Colors.red,
-        width: 1.3,
+        width: 1.2,
+      ),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+        color: KColors.grey,
+        width: 1.2,
       ),
       borderRadius: BorderRadius.circular(12),
     ),

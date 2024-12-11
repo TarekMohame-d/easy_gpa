@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AppTextButton extends StatelessWidget {
+class KTextButton extends StatelessWidget {
   final double? borderRadius;
   final Color? backgroundColor;
   final double? horizontalPadding;
@@ -12,7 +12,7 @@ class AppTextButton extends StatelessWidget {
   final TextStyle? textStyle;
   final VoidCallback onPressed;
   final Widget? child;
-  const AppTextButton({
+  const KTextButton({
     super.key,
     this.borderRadius,
     this.backgroundColor,

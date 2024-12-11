@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelper {
@@ -29,7 +28,7 @@ class SQLHelper {
         },
       );
     } catch (e) {
-      log("Error while initializing database: $e");
+      debugPrint("Error while initializing database: $e");
     }
   }
 
@@ -43,7 +42,7 @@ class SQLHelper {
       );
       return (true, index);
     } catch (e) {
-      log("Error while inserting: $e");
+      debugPrint("Error while inserting: $e");
       return (false, null);
     }
   }
@@ -57,7 +56,7 @@ class SQLHelper {
         whereArgs: [whereArgs],
       );
     } catch (e) {
-      log("Error while retrieving: $e");
+      debugPrint("Error while retrieving: $e");
       return [];
     }
   }
@@ -67,7 +66,7 @@ class SQLHelper {
     try {
       return await _db!.query(_tableName);
     } catch (e) {
-      log("Error while retrieving: $e");
+      debugPrint("Error while retrieving: $e");
       return [];
     }
   }
@@ -88,7 +87,7 @@ class SQLHelper {
       );
       return true;
     } catch (e) {
-      log("Error while Updating: $e");
+      debugPrint("Error while Updating: $e");
       return false;
     }
   }
@@ -103,7 +102,7 @@ class SQLHelper {
       );
       return true;
     } catch (e) {
-      log("Error while deleting: $e");
+      debugPrint("Error while deleting: $e");
       return false;
     }
   }
@@ -114,7 +113,7 @@ class SQLHelper {
       await _db!.delete(_tableName);
       return true;
     } catch (e) {
-      log("Error while clearing: $e");
+      debugPrint("Error while clearing: $e");
       return false;
     }
   }

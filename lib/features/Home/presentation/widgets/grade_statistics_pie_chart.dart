@@ -1,31 +1,34 @@
+import 'package:easy_gpa/core/helpers/font_weight_helper.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/features/Home/presentation/widgets/pie_sections.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GradeStatistics extends StatefulWidget {
-  const GradeStatistics({super.key, required this.gradesStatistics});
+class GradeStatisticsPieChart extends StatefulWidget {
+  const GradeStatisticsPieChart({super.key, required this.gradesStatistics});
 
   final Map<String, int> gradesStatistics;
 
   @override
-  State<GradeStatistics> createState() => _GradeStatisticsState();
+  State<GradeStatisticsPieChart> createState() =>
+      _GradeStatisticsPieChartState();
 }
 
-class _GradeStatisticsState extends State<GradeStatistics> {
-  int selectedIndex = -10;
+class _GradeStatisticsPieChartState extends State<GradeStatisticsPieChart> {
+  int selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
-    int numOfGrades = widget.gradesStatistics.values.reduce((a, b) => a + b);
+    int numOfGrades =
+        widget.gradesStatistics.values.reduce((sum, value) => sum + value);
     return numOfGrades > 0
         ? PieChart(
-            swapAnimationCurve: Curves.easeInOut,
-            swapAnimationDuration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 300),
             PieChartData(
               centerSpaceRadius: KHelperFunctions.getScreenWidth(context) * 0.2,
-              sectionsSpace: 3,
+              sectionsSpace: 5.r,
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   if (event is FlTapUpEvent &&
@@ -41,13 +44,16 @@ class _GradeStatisticsState extends State<GradeStatistics> {
               sections: creatingPieSections(
                 selectedIndex,
                 widget.gradesStatistics,
+                context,
               ),
             ),
           )
         : Center(
             child: Text(
               'No Grades Available Yet',
-              style: KTextStyles.font16BlackBold,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: KFontWeightHelper.semiBold,
+                  ),
             ),
           );
   }

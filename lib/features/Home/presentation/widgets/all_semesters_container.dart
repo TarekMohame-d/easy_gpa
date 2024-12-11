@@ -1,9 +1,11 @@
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/helpers/font_weight_helper.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/theme/colors.dart';
+import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AllSemestersContainer extends StatelessWidget {
   const AllSemestersContainer({super.key});
@@ -17,17 +19,22 @@ class AllSemestersContainer extends StatelessWidget {
       child: Center(
         child: InkWell(
           onTap: () {
-            context.pushNamed(Routes.semestersScreen);
+            context.pushNamed(KRoutes.semestersScreen);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'All',
-                style: KTextStyles.font16BlackBold,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontWeight: KFontWeightHelper.bold,
+                      fontSize: 18.sp,
+                    ),
               ),
-              const Icon(
-                Icons.expand_more_rounded,
+              horizontalSpace(5),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 20.r,
               ),
             ],
           ),

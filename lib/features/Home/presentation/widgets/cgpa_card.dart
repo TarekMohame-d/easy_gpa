@@ -1,5 +1,4 @@
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
@@ -20,7 +19,7 @@ class CGPACard extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 12.w),
         color: KColors.white,
-        shadowColor: Colors.grey,
+        shadowColor: KColors.grey,
         elevation: 5,
         child: Column(
           children: [
@@ -39,11 +38,15 @@ class CGPACard extends StatelessWidget {
                       children: [
                         Text(
                           'ALL SEMESTERS',
-                          style: KTextStyles.font14GreyRegular,
+                          style:
+                              Theme.of(context).textTheme.labelSmall!.copyWith(
+                                    fontSize: 14.sp,
+                                    color: KColors.grey,
+                                  ),
                         ),
                         Text(
                           '${cGPA.toStringAsFixed(2)} CGPA',
-                          style: KTextStyles.font16BlackSemiBold,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
                     ),
@@ -81,11 +84,14 @@ class CGPACard extends StatelessWidget {
                     children: [
                       Text(
                         'Total Credit Hours',
-                        style: KTextStyles.font14GreyRegular,
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                              fontSize: 14.sp,
+                              color: KColors.grey,
+                            ),
                       ),
                       Text(
                         allCreditHours.toString(),
-                        style: KTextStyles.font16BlackSemiBold,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),

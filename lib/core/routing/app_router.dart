@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 
 import 'routes.dart';
 
-class AppRouter {
+class KAppRouter {
   Route? generateRoute(RouteSettings settings) {
     // this arguments to be passed in any screen like this => arguments as ClassName
     final arguments = settings.arguments;
 
     switch (settings.name) {
-      case Routes.homeScreen:
+      case KRoutes.homeScreen:
         return MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         );
-      case Routes.semestersScreen:
+      case KRoutes.semestersScreen:
         return MaterialPageRoute(
           builder: (context) => const SemestersScreen(),
         );
-      case Routes.coursesScreen:
+      case KRoutes.coursesScreen:
         return MaterialPageRoute(
           builder: (context) => CoursesScreen(
             semesterNumber: arguments as int,

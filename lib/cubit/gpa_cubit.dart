@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/features/Home/domain/usecases/save_pdf_use_case.dart';
@@ -9,23 +6,22 @@ import 'package:easy_gpa/features/courses/domain/usecases/delete_course_use_case
 import 'package:easy_gpa/features/courses/domain/usecases/insert_course_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/update_course_use_case.dart';
 import 'package:easy_gpa/features/home/domain/usecases/get_all_courses_use_case.dart';
-import 'package:easy_gpa/features/semesters/domain/usecases/get_semester_courses_use_case.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'gpa_state.dart';
 
 class GpaCubit extends Cubit<GpaState> {
   GpaCubit(
-    this._addCourseUseCase,
+    this._insertCourseUseCase,
     this._getAllCoursesUseCase,
     this._updateCourseUseCase,
     this._deleteCourseUseCase,
     this._savePdfUseCase,
-    this._getSemesterCoursesUseCase,
   ) : super(GpaInitial());
 
   final GetAllCoursesUseCase _getAllCoursesUseCase;
-  final GetSemesterCoursesUseCase _getSemesterCoursesUseCase;
-  final InsertCourseUseCase _addCourseUseCase;
+  final InsertCourseUseCase _insertCourseUseCase;
   final UpdateCourseUseCase _updateCourseUseCase;
   final DeleteCourseUseCase _deleteCourseUseCase;
   final SavePdfUseCase _savePdfUseCase;
@@ -84,7 +80,6 @@ class GpaCubit extends Cubit<GpaState> {
   void calculateCGPA() {
     cGPA = 0.0;
     if (allCourses.isEmpty) {
-      cGPA = 0.0;
       return;
     }
 
@@ -102,42 +97,27 @@ class GpaCubit extends Cubit<GpaState> {
     calculateGradesStatistics();
   }
 
-  Future<void> addCourse(CourseModel course) async {
-    emit(AddCourseLoading());
-    final (bool, int?) result = await _addCourseUseCase.call(course);
+  Future<void> insertCourse(CourseModel course) async {
+    emit(InsertCourseLoading());
+    final (bool, int?) result = await _insertCourseUseCase.call(course);
     if (result.$1) {
-      CourseModel addedCourse = CourseModel(
+      allCourses.add(CourseModel(
         credits: course.credits,
         grade: course.grade,
         name: course.name,
         semester: course.semester,
         id: result.$2,
-      );
-      allCourses.add(addedCourse);
+      ));
       calculateHomeScreenData();
-      emit(AddCourseSuccess());
+      emit(InsertCourseSuccess());
     } else {
-      emit(AddCourseFailure());
+      emit(InsertCourseFailure());
     }
-  }
-
-  Future<void> getAllCourses() async {
-    final List<CourseModel> courses = await _getAllCoursesUseCase.call();
-    if (!courses.isNullOrEmpty()) {
-      allCourses = courses;
-      calculateHomeScreenData();
-      emit(GetAllCoursesSuccess());
-    }
-  }
-
-  List<CourseModel> getSemesterCourses(int semesterId) {
-    final List<CourseModel> semesterCourses =
-        _getSemesterCoursesUseCase.call(allCourses, semesterId);
-    return semesterCourses;
   }
 
   Future<void> updateCourse(CourseModel editedCourse) async {
-    final bool result = await _updateCourseUseCase.call(editedCourse);
+    emit(UpdateCourseLoading());
+    final result = await _updateCourseUseCase.call(editedCourse);
     if (result) {
       final index =
           allCourses.indexWhere((course) => course.id == editedCourse.id);
@@ -146,16 +126,37 @@ class GpaCubit extends Cubit<GpaState> {
         calculateHomeScreenData();
       }
       emit(UpdateCourseSuccess());
+    }else{
+      emit(UpdateCourseFailure());
     }
   }
 
   Future<void> deleteCourse(int courseId) async {
-    final bool result = await _deleteCourseUseCase.call(courseId);
+    emit(DeleteCourseLoading());
+    final result = await _deleteCourseUseCase.call(courseId);
     if (result) {
       allCourses.removeWhere((course) => course.id == courseId);
       calculateHomeScreenData();
       emit(DeleteCourseSuccess());
+    }else{
+      emit(DeleteCourseFailure());
     }
+  }
+
+  Future<void> getAllCourses() async {
+    emit(GetAllCoursesLoading());
+    final courses = await _getAllCoursesUseCase.call();
+    if (courses.isNotEmpty) {
+      allCourses = courses;
+      calculateHomeScreenData();
+      emit(GetAllCoursesSuccess());
+    }
+  }
+
+  List<CourseModel> getSemesterCourses(int semesterId) {
+    final List<CourseModel> semesterCourses =
+        allCourses.where((course) => course.semester == semesterId).toList();
+    return semesterCourses;
   }
 
   Future<void> generateAndSavePdf() async {

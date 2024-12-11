@@ -1,11 +1,11 @@
-import 'package:easy_gpa/features/courses/data/data_sources/courses_local_data_source.dart';
+import 'package:easy_gpa/features/courses/data/data_sources/courses_data_source.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:easy_gpa/features/courses/domain/repository/courses_repo.dart';
 
 class CoursesRepoImpl implements CoursesRepo {
   CoursesRepoImpl(this._coursesLocalDataSource);
 
-  final CoursesLocalDataSource _coursesLocalDataSource;
+  final CoursesDataSource _coursesLocalDataSource;
 
   @override
   Future<(bool, int?)> insertCourse(CourseModel course) async {

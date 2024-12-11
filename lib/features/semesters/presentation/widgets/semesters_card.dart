@@ -1,8 +1,9 @@
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/helpers/font_weight_helper.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class SemestersCard extends StatelessWidget {
@@ -21,14 +22,14 @@ class SemestersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routes.coursesScreen, arguments: index);
+        context.pushNamed(KRoutes.coursesScreen, arguments: index);
       },
       child: Card(
         elevation: 5,
-        shadowColor: Colors.black,
+        shadowColor: KColors.black,
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.r),
           child: Row(
             children: [
               Column(
@@ -37,11 +38,17 @@ class SemestersCard extends StatelessWidget {
                 children: [
                   Text(
                     'Semester $index',
-                    style: KTextStyles.font16BlackRegular,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontWeight: KFontWeightHelper.regular),
                   ),
                   Text(
                     'Credits: ${creditHours ?? 'N/A'}',
-                    style: KTextStyles.font12GreyRegular,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: KColors.grey),
                   ),
                 ],
               ),
@@ -59,15 +66,20 @@ class SemestersCard extends StatelessWidget {
                         duration: Duration(seconds: 1, milliseconds: 500),
                         builder: (context, value, child) => Text(
                           value.toStringAsFixed(2),
-                          style: KTextStyles.font14BlackRegular,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(fontSize: 14.sp),
                         ),
                       )
                     : Text(
                         'N/A',
-                        style: KTextStyles.font14BlackRegular,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 14.sp),
                       ),
                 progressColor: KColors.lightOrange,
-                backgroundColor: KColors.grey,
                 arcBackgroundColor: KColors.grey,
                 arcType: ArcType.FULL,
               ),
