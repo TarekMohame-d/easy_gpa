@@ -8,9 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EasyGPA extends StatelessWidget {
-  const EasyGPA(this.appRouter, {super.key});
-
-  final AppRouter appRouter;
+  const EasyGPA({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +16,8 @@ class EasyGPA extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: BlocProvider(
+      builder: (context, child) => BlocProvider(
         create: (context) => GpaCubit(
-          getIt(),
           getIt(),
           getIt(),
           getIt(),
@@ -31,8 +28,8 @@ class EasyGPA extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
           theme: KAppTheme.lightTheme,
-          onGenerateRoute: appRouter.generateRoute,
-          initialRoute: Routes.homeScreen,
+          onGenerateRoute: KAppRouter().generateRoute,
+          initialRoute: KRoutes.homeScreen,
         ),
       ),
     );

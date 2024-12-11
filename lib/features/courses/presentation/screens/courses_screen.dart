@@ -1,7 +1,5 @@
-import 'dart:developer';
-
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/helpers/font_weight_helper.dart';
 import 'package:easy_gpa/core/widgets/custom_snack_bar.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
@@ -28,7 +26,10 @@ class CoursesScreen extends StatelessWidget {
         ),
         title: Text(
           'Semester $semesterNumber',
-          style: KTextStyles.font20BlackMedium,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: KFontWeightHelper.medium),
         ),
         centerTitle: true,
       ),
@@ -47,11 +48,10 @@ class CoursesScreen extends StatelessWidget {
               }
             },
             buildWhen: (previous, current) =>
-                current is AddCourseSuccess ||
+                current is InsertCourseSuccess ||
                 current is UpdateCourseSuccess ||
                 current is DeleteCourseSuccess,
             builder: (context, state) {
-              log('build courses screen');
               final courses =
                   context.read<GpaCubit>().getSemesterCourses(semesterNumber);
               return ListView(

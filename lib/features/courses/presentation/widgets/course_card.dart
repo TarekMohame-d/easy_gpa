@@ -1,10 +1,9 @@
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
-import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:easy_gpa/features/courses/presentation/widgets/custom_add_course_bottom_sheet.dart';
+import 'package:easy_gpa/features/courses/presentation/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CourseCard extends StatelessWidget {
@@ -16,33 +15,36 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      shadowColor: Colors.black,
-      color: Colors.white,
+      shadowColor: KColors.black,
+      color: KColors.white,
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12.r),
         child: Row(
           children: [
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.grey,
+                    color: KColors.grey,
                   ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0.r),
                       child: Text(
                         courseModel.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: KTextStyles.font16BlackRegular,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 16.sp),
                       ),
                     ),
                     const Divider(
-                      color: Colors.grey,
+                      color: KColors.grey,
                       height: 0,
                     ),
                     Row(
@@ -52,7 +54,10 @@ class CourseCard extends StatelessWidget {
                           courseModel.grade,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: KTextStyles.font14BlackRegular,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(fontSize: 14.sp),
                         ),
                         SizedBox(
                           height: 40.h,
@@ -63,7 +68,10 @@ class CourseCard extends StatelessWidget {
                         ),
                         Text(
                           courseModel.credits.toString(),
-                          style: KTextStyles.font14BlackRegular,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(fontSize: 14.sp),
                         ),
                         SizedBox(
                           height: 40.h,
@@ -102,57 +110,4 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
-}
-
-showDeleteDialog(BuildContext context, CourseModel courseModel) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text(
-        'Are you sure you want to delete',
-        style: KTextStyles.font16BlackMedium,
-      ),
-      content: Text(
-        '${courseModel.name} course?',
-        style: KTextStyles.font14GreyRegular,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          style: const ButtonStyle(
-            padding: WidgetStatePropertyAll(
-              EdgeInsets.zero,
-            ),
-          ),
-          child: Text(
-            'Cancel',
-            style: KTextStyles.font14BlackMedium,
-          ),
-        ),
-        TextButton(
-          onPressed: () async {
-            await context.read<GpaCubit>().deleteCourse(courseModel.id!);
-            Navigator.pop(context);
-          },
-          style: const ButtonStyle(
-            padding: WidgetStatePropertyAll(
-              EdgeInsets.zero,
-            ),
-          ),
-          child: Text(
-            'Delete',
-            style: KTextStyles.font14BlackMedium.copyWith(
-              color: Colors.red,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }

@@ -1,5 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/custom_snack_bar.dart';
 import 'package:easy_gpa/features/courses/presentation/widgets/custom_add_course_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -41,11 +41,14 @@ class CourseCardTemplate extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.add_circle_outline,
-                    color: Colors.grey,
+                    color: KColors.grey,
                   ),
                   Text(
                     'Add Course',
-                    style: KTextStyles.font14GreyRegular,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(fontSize: 14.sp, color: KColors.grey),
                   ),
                 ],
               ),

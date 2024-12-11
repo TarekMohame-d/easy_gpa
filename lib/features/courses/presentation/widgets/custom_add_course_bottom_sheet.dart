@@ -1,10 +1,9 @@
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
-import 'package:easy_gpa/core/theme/app_text_styles.dart';
 import 'package:easy_gpa/core/theme/colors.dart';
-import 'package:easy_gpa/core/widgets/app_text_button.dart';
-import 'package:easy_gpa/core/widgets/app_text_form_field.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
+import 'package:easy_gpa/core/widgets/text_button.dart';
+import 'package:easy_gpa/core/widgets/text_form_field.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ customAddCourseBottomSheet(BuildContext context,
                         margin: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: Colors.grey.withOpacity(0.8),
+                          color: KColors.grey.withOpacity(0.8),
                         ),
                       ),
                     ),
@@ -64,8 +63,16 @@ customAddCourseBottomSheet(BuildContext context,
                         if (input == null || input.isEmpty) {
                           return 'Please enter course name';
                         }
+                        return null;
                       },
-                      inputTextStyle: KTextStyles.font14BlackRegular,
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp),
+                      inputTextStyle: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp),
                     ),
                     verticalSpace(12),
                     KTextFormField(
@@ -85,7 +92,14 @@ customAddCourseBottomSheet(BuildContext context,
                         return null;
                       },
                       keyboardType: TextInputType.number,
-                      inputTextStyle: KTextStyles.font14BlackRegular,
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp),
+                      inputTextStyle: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp),
                     ),
                     verticalSpace(12),
                     DropdownButtonHideUnderline(
@@ -96,11 +110,14 @@ customAddCourseBottomSheet(BuildContext context,
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 18.h,
+                              horizontal: 12.w,
+                              vertical: 14.h,
                             ),
                           ),
-                          style: KTextStyles.font14BlackRegular,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(fontSize: 14.sp),
                           value: selectedGrade,
                           validator: (value) {
                             if (value == null) {
@@ -115,7 +132,10 @@ customAddCourseBottomSheet(BuildContext context,
                           },
                           hint: Text(
                             'Grade',
-                            style: KTextStyles.font14GreyRegular,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(fontSize: 14.sp),
                           ),
                           items: grades.map((String grade) {
                             return DropdownMenuItem<String>(
@@ -129,7 +149,7 @@ customAddCourseBottomSheet(BuildContext context,
                     verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
-                      child: AppTextButton(
+                      child: KTextButton(
                         buttonWidth:
                             KHelperFunctions.getScreenWidth(context) * 0.5,
                         onPressed: () async {
@@ -142,7 +162,9 @@ customAddCourseBottomSheet(BuildContext context,
                               id: editCourse?.id,
                             );
                             if (editCourse == null) {
-                              await context.read<GpaCubit>().addCourse(course);
+                              await context
+                                  .read<GpaCubit>()
+                                  .insertCourse(course);
                             } else {
                               bool hasChanges =
                                   editCourse.name != course.name ||
@@ -159,7 +181,10 @@ customAddCourseBottomSheet(BuildContext context,
                         },
                         buttonText:
                             editCourse == null ? 'Add Course' : 'Update Course',
-                        textStyle: KTextStyles.font14WhiteMedium,
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: KColors.white),
                         backgroundColor: KColors.lightOrange,
                       ),
                     ),

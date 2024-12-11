@@ -6,6 +6,7 @@ import 'package:easy_gpa/core/theme/custom_themes/elevated_button_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/floating_action_button_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/input_decoration_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/snack_bar_theme.dart';
+import 'package:easy_gpa/core/theme/custom_themes/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,12 +19,7 @@ class KAppTheme {
     useMaterial3: true,
     brightness: Brightness.light,
     fontFamily: 'Poppins',
-    primaryColor: Colors.black,
-    textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: KColors.black,
-      selectionColor: KColors.grey,
-      selectionHandleColor: KColors.grey,
-    ),
+    primaryColor: KColors.lightOrange,
     scaffoldBackgroundColor: KColors.scaffoldLightColor,
     floatingActionButtonTheme:
         KFloatingActionButtonTheme.floatingActionButtonTheme,
@@ -34,6 +30,7 @@ class KAppTheme {
     bottomSheetTheme: KBottomSheetTheme.bottomSheetTheme,
     inputDecorationTheme: KInputDecorationTheme.inputDecorationTheme,
     snackBarTheme: KSnackBarTheme.snackBarTheme,
+    textTheme: KTextTheme.textTheme,
   );
 
   static void setStatusBarColor() {
