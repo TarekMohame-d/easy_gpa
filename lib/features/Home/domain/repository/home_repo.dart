@@ -6,4 +6,6 @@ abstract class HomeRepo {
     double cGPA,
     int allCreditHours,
   );
+
+  Future<List<CourseModel>> getAllCourses();
 }

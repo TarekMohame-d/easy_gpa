@@ -8,23 +8,22 @@ void customDialog(BuildContext context) {
       return AlertDialog(
         title: Text(
           'GPA Scale',
-          style: AppTextStyles.font20BlackBold,
+          style: KTextStyles.font20BlackSemiBold,
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 10),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   'Grade',
-                  style: AppTextStyles.font16BlackMedium,
+                  style: KTextStyles.font16BlackMedium,
                 ),
                 Text(
                   'Point',
-                  style: AppTextStyles.font16BlackMedium,
+                  style: KTextStyles.font16BlackMedium,
                 ),
               ],
             ),
@@ -55,7 +54,7 @@ Widget generateGPAItem(bool grade) {
           String text = grade ? gpaScale[index].$1 : gpaScale[index].$2;
           return Text(
             text,
-            style: AppTextStyles.font14BlackRegular,
+            style: KTextStyles.font14BlackRegular,
           );
         },
       ),

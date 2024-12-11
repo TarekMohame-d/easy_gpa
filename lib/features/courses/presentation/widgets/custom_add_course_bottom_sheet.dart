@@ -1,7 +1,7 @@
-import 'package:easy_gpa/core/helpers/constants.dart';
 import 'package:easy_gpa/core/helpers/extensions.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/app_text_button.dart';
 import 'package:easy_gpa/core/widgets/app_text_form_field.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
@@ -35,7 +35,7 @@ customAddCourseBottomSheet(BuildContext context,
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: screenHeight(context) * 0.5,
+              height: KHelperFunctions.getScreenHeight(context) * 0.5,
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 12.w),
               child: Form(
@@ -57,7 +57,7 @@ customAddCourseBottomSheet(BuildContext context,
                       ),
                     ),
                     verticalSpace(24),
-                    AppTextFormField(
+                    KTextFormField(
                       controller: courseNameController,
                       hintText: 'Course Name',
                       validator: (input) {
@@ -65,11 +65,10 @@ customAddCourseBottomSheet(BuildContext context,
                           return 'Please enter course name';
                         }
                       },
-                      backGroundColor: Colors.white,
-                      inputTextStyle: AppTextStyles.font14BlackRegular,
+                      inputTextStyle: KTextStyles.font14BlackRegular,
                     ),
                     verticalSpace(12),
-                    AppTextFormField(
+                    KTextFormField(
                       controller: courseCreditsController,
                       hintText: 'Credits',
                       validator: (input) {
@@ -80,14 +79,13 @@ customAddCourseBottomSheet(BuildContext context,
                         if (parsed == null) {
                           return 'Course credits must be an integer';
                         }
-                        if (parsed > 9) {
+                        if (parsed > 8) {
                           return 'Course credits cannot be greater than 8';
                         }
                         return null;
                       },
-                      backGroundColor: Colors.white,
                       keyboardType: TextInputType.number,
-                      inputTextStyle: AppTextStyles.font14BlackRegular,
+                      inputTextStyle: KTextStyles.font14BlackRegular,
                     ),
                     verticalSpace(12),
                     DropdownButtonHideUnderline(
@@ -102,7 +100,7 @@ customAddCourseBottomSheet(BuildContext context,
                               vertical: 18.h,
                             ),
                           ),
-                          style: AppTextStyles.font14BlackRegular,
+                          style: KTextStyles.font14BlackRegular,
                           value: selectedGrade,
                           validator: (value) {
                             if (value == null) {
@@ -117,7 +115,7 @@ customAddCourseBottomSheet(BuildContext context,
                           },
                           hint: Text(
                             'Grade',
-                            style: AppTextStyles.font14GreyRegular,
+                            style: KTextStyles.font14GreyRegular,
                           ),
                           items: grades.map((String grade) {
                             return DropdownMenuItem<String>(
@@ -132,7 +130,8 @@ customAddCourseBottomSheet(BuildContext context,
                     Align(
                       alignment: Alignment.center,
                       child: AppTextButton(
-                        buttonWidth: screenWidth(context) * 0.5,
+                        buttonWidth:
+                            KHelperFunctions.getScreenWidth(context) * 0.5,
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             CourseModel course = CourseModel(
@@ -160,8 +159,8 @@ customAddCourseBottomSheet(BuildContext context,
                         },
                         buttonText:
                             editCourse == null ? 'Add Course' : 'Update Course',
-                        textStyle: AppTextStyles.font14WhiteMedium,
-                        backgroundColor: AppColors.lightOrange,
+                        textStyle: KTextStyles.font14WhiteMedium,
+                        backgroundColor: KColors.lightOrange,
                       ),
                     ),
                   ],

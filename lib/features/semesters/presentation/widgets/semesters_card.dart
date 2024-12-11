@@ -1,7 +1,7 @@
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
-import 'package:easy_gpa/core/theme/app_colors.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -16,18 +16,6 @@ class SemestersCard extends StatelessWidget {
   final int index;
   final double? gpa;
   final int? creditHours;
-
-  Color getColor(double gpa) {
-    if (gpa >= 3.0) {
-      return Colors.green;
-    } else if (gpa >= 2.0) {
-      return Colors.orange;
-    } else if (gpa >= 0) {
-      return Colors.red;
-    } else {
-      return Colors.white;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +37,11 @@ class SemestersCard extends StatelessWidget {
                 children: [
                   Text(
                     'Semester $index',
-                    style: AppTextStyles.font16BlackRegular,
+                    style: KTextStyles.font16BlackRegular,
                   ),
                   Text(
                     'Credits: ${creditHours ?? 'N/A'}',
-                    style: AppTextStyles.font12GreyRegular,
+                    style: KTextStyles.font12GreyRegular,
                   ),
                 ],
               ),
@@ -65,12 +53,22 @@ class SemestersCard extends StatelessWidget {
                 animationDuration: 1500,
                 lineWidth: 5.0,
                 percent: gpa != null ? gpa! / 4 : 0,
-                center: Text(
-                  gpa != null ? gpa!.toStringAsFixed(2) : 'N/A',
-                  style: AppTextStyles.font14BlackRegular,
-                ),
-                progressColor: AppColors.lightOrange,
-                arcBackgroundColor: Colors.grey,
+                center: gpa != null
+                    ? TweenAnimationBuilder(
+                        tween: Tween<double>(begin: 0.0, end: gpa),
+                        duration: Duration(seconds: 1, milliseconds: 500),
+                        builder: (context, value, child) => Text(
+                          value.toStringAsFixed(2),
+                          style: KTextStyles.font14BlackRegular,
+                        ),
+                      )
+                    : Text(
+                        'N/A',
+                        style: KTextStyles.font14BlackRegular,
+                      ),
+                progressColor: KColors.lightOrange,
+                backgroundColor: KColors.grey,
+                arcBackgroundColor: KColors.grey,
                 arcType: ArcType.FULL,
               ),
             ],

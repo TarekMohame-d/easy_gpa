@@ -1,5 +1,6 @@
-import 'package:easy_gpa/core/helpers/constants.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/app_text_styles.dart';
+import 'package:easy_gpa/core/theme/colors.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ class CGPACard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: screenWidth(context),
+      width: KHelperFunctions.getScreenWidth(context),
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 12.w),
-        color: Colors.white,
+        color: KColors.white,
         shadowColor: Colors.grey,
         elevation: 5,
         child: Column(
@@ -37,12 +38,12 @@ class CGPACard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'ALL SEMESTER',
-                          style: AppTextStyles.font14GreyRegular,
+                          'ALL SEMESTERS',
+                          style: KTextStyles.font14GreyRegular,
                         ),
                         Text(
                           '${cGPA.toStringAsFixed(2)} CGPA',
-                          style: AppTextStyles.font16BlackBold,
+                          style: KTextStyles.font16BlackSemiBold,
                         ),
                       ],
                     ),
@@ -80,11 +81,11 @@ class CGPACard extends StatelessWidget {
                     children: [
                       Text(
                         'Total Credit Hours',
-                        style: AppTextStyles.font14GreyRegular,
+                        style: KTextStyles.font14GreyRegular,
                       ),
                       Text(
                         allCreditHours.toString(),
-                        style: AppTextStyles.font16BlackBold,
+                        style: KTextStyles.font16BlackSemiBold,
                       ),
                     ],
                   ),

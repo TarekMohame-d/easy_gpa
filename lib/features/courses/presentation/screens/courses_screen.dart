@@ -28,7 +28,7 @@ class CoursesScreen extends StatelessWidget {
         ),
         title: Text(
           'Semester $semesterNumber',
-          style: AppTextStyles.font20BlackMedium,
+          style: KTextStyles.font20BlackMedium,
         ),
         centerTitle: true,
       ),

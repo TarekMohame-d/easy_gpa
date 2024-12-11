@@ -1,7 +1,7 @@
-import 'package:easy_gpa/core/di/dependency_injection.dart';
 import 'package:easy_gpa/core/routing/app_router.dart';
 import 'package:easy_gpa/core/routing/routes.dart';
-import 'package:easy_gpa/core/theme/app_themes.dart';
+import 'package:easy_gpa/core/service_locator/dependency_injection.dart';
+import 'package:easy_gpa/core/theme/theme.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,11 +25,12 @@ class EasyGPA extends StatelessWidget {
           getIt(),
           getIt(),
           getIt(),
+          getIt(),
         ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
-          theme: AppThemes.lightTheme,
+          theme: KAppTheme.lightTheme,
           onGenerateRoute: appRouter.generateRoute,
           initialRoute: Routes.homeScreen,
         ),

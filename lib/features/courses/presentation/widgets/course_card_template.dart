@@ -33,9 +33,10 @@ class CourseCardTemplate extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                  child: Divider(
-                endIndent: 7.w,
-              )),
+                child: Divider(
+                  endIndent: 7.w,
+                ),
+              ),
               Row(
                 children: [
                   const Icon(
@@ -44,14 +45,15 @@ class CourseCardTemplate extends StatelessWidget {
                   ),
                   Text(
                     'Add Course',
-                    style: AppTextStyles.font14GreyRegular,
+                    style: KTextStyles.font14GreyRegular,
                   ),
                 ],
               ),
               Expanded(
-                  child: Divider(
-                indent: 7.w,
-              )),
+                child: Divider(
+                  indent: 7.w,
+                ),
+              ),
             ],
           ),
         ),

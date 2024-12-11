@@ -34,19 +34,12 @@ class SemestersScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: 12,
                 itemBuilder: (context, index) {
-                  return FutureBuilder<(double? gpa, int? creditHours)>(
-                    future: context
-                        .read<GpaCubit>()
-                        .calculateSemesterData(index + 1),
-                    builder: (context, snapshot) {
-                      double? gpa = snapshot.data?.$1;
-                      int? creditHours = snapshot.data?.$2;
-                      return SemestersCard(
-                        index: index + 1,
-                        gpa: gpa,
-                        creditHours: creditHours,
-                      );
-                    },
+                  final result =
+                      context.read<GpaCubit>().calculateSemesterData(index + 1);
+                  return SemestersCard(
+                    index: index + 1,
+                    gpa: result.$1,
+                    creditHours: result.$2,
                   );
                 },
               );

@@ -1,13 +1,15 @@
-import 'package:easy_gpa/core/functions/grade_to_number.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:easy_gpa/core/helpers/extensions.dart';
+import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/features/Home/domain/usecases/save_pdf_use_case.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/delete_course_use_case.dart';
-import 'package:easy_gpa/features/courses/domain/usecases/get_all_courses_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/insert_course_use_case.dart';
 import 'package:easy_gpa/features/courses/domain/usecases/update_course_use_case.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_gpa/features/home/domain/usecases/get_all_courses_use_case.dart';
+import 'package:easy_gpa/features/semesters/domain/usecases/get_semester_courses_use_case.dart';
 
 part 'gpa_state.dart';
 
@@ -18,10 +20,12 @@ class GpaCubit extends Cubit<GpaState> {
     this._updateCourseUseCase,
     this._deleteCourseUseCase,
     this._savePdfUseCase,
+    this._getSemesterCoursesUseCase,
   ) : super(GpaInitial());
 
-  final InsertCourseUseCase _addCourseUseCase;
   final GetAllCoursesUseCase _getAllCoursesUseCase;
+  final GetSemesterCoursesUseCase _getSemesterCoursesUseCase;
+  final InsertCourseUseCase _addCourseUseCase;
   final UpdateCourseUseCase _updateCourseUseCase;
   final DeleteCourseUseCase _deleteCourseUseCase;
   final SavePdfUseCase _savePdfUseCase;
@@ -47,7 +51,7 @@ class GpaCubit extends Cubit<GpaState> {
   double cGPA = 0.0;
   int allCreditHours = 0;
 
-  void calculateGradeStatistics() {
+  void calculateGradesStatistics() {
     gradesStatistics.updateAll((key, value) => 0);
     for (var course in allCourses) {
       if (gradesStatistics.containsKey(course.grade)) {
@@ -56,14 +60,14 @@ class GpaCubit extends Cubit<GpaState> {
     }
   }
 
-  Future<(double? gpa, int? creditHours)> calculateSemesterData(
-      int semesterId) async {
-    List<CourseModel> semesterCourses = await getSemesterCourses(semesterId);
+  (double? gpa, int? creditHours) calculateSemesterData(int semesterId) {
+    List<CourseModel> semesterCourses = getSemesterCourses(semesterId);
 
     if (semesterCourses.isNullOrEmpty()) return (null, null);
     double qualityPoints = 0;
     for (var course in semesterCourses) {
-      qualityPoints += course.credits * convertGradeToNumber(course.grade);
+      qualityPoints +=
+          course.credits * KHelperFunctions.convertGradeToNumber(course.grade);
     }
     int creditHours =
         semesterCourses.fold(0, (sum, course) => sum + course.credits);
@@ -86,7 +90,8 @@ class GpaCubit extends Cubit<GpaState> {
 
     double qualityPoints = 0;
     for (var course in allCourses) {
-      qualityPoints += course.credits * convertGradeToNumber(course.grade);
+      qualityPoints +=
+          course.credits * KHelperFunctions.convertGradeToNumber(course.grade);
     }
     cGPA = allCreditHours > 0 ? qualityPoints / allCreditHours : 0.0;
   }
@@ -94,7 +99,7 @@ class GpaCubit extends Cubit<GpaState> {
   void calculateHomeScreenData() {
     calculateAllCreditHours();
     calculateCGPA();
-    calculateGradeStatistics();
+    calculateGradesStatistics();
   }
 
   Future<void> addCourse(CourseModel course) async {
@@ -126,9 +131,9 @@ class GpaCubit extends Cubit<GpaState> {
   }
 
   List<CourseModel> getSemesterCourses(int semesterId) {
-    final List<CourseModel> courses =
-        allCourses.where((course) => course.semester == semesterId).toList();
-    return courses;
+    final List<CourseModel> semesterCourses =
+        _getSemesterCoursesUseCase.call(allCourses, semesterId);
+    return semesterCourses;
   }
 
   Future<void> updateCourse(CourseModel editedCourse) async {
