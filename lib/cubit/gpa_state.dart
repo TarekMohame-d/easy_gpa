@@ -29,16 +29,22 @@ final class DeleteCourseSuccess extends GpaState {}
 
 final class DeleteCourseFailure extends GpaState {}
 
-
-
 final class UpdateSemesterGPA extends GpaState {}
 
 final class FilterSemesterCourses extends GpaState {}
 
 final class GetSemesterCoursesSuccess extends GpaState {}
 
+final class SavePdfLoading extends GpaState {}
 
+final class SavePdfSuccess extends GpaState {
+  final String directoryPath;
 
-final class SavePdfSuccess extends GpaState {}
+  SavePdfSuccess(this.directoryPath);
+}
 
-final class SavePdfFailure extends GpaState {}
+final class SavePdfFailure extends GpaState {
+  final String errorMessage;
+
+  SavePdfFailure(this.errorMessage);
+}

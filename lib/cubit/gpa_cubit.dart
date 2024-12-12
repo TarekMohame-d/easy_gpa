@@ -126,7 +126,7 @@ class GpaCubit extends Cubit<GpaState> {
         calculateHomeScreenData();
       }
       emit(UpdateCourseSuccess());
-    }else{
+    } else {
       emit(UpdateCourseFailure());
     }
   }
@@ -138,7 +138,7 @@ class GpaCubit extends Cubit<GpaState> {
       allCourses.removeWhere((course) => course.id == courseId);
       calculateHomeScreenData();
       emit(DeleteCourseSuccess());
-    }else{
+    } else {
       emit(DeleteCourseFailure());
     }
   }
@@ -160,11 +160,12 @@ class GpaCubit extends Cubit<GpaState> {
   }
 
   Future<void> generateAndSavePdf() async {
+    emit(SavePdfLoading());
     final result = await _savePdfUseCase.call(allCourses, cGPA, allCreditHours);
-    if (result) {
-      emit(SavePdfSuccess());
+    if (result.$1) {
+      emit(SavePdfSuccess(result.$2));
     } else {
-      emit(SavePdfFailure());
+      emit(SavePdfFailure(result.$2));
     }
   }
 }

@@ -1,5 +1,7 @@
+import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/helper_functions.dart';
 import 'package:easy_gpa/core/theme/colors.dart';
+import 'package:easy_gpa/core/widgets/custom_snack_bar.dart';
 import 'package:easy_gpa/core/widgets/spacing.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +57,14 @@ class CGPACard extends StatelessWidget {
                   FloatingActionButton(
                     heroTag: 'unique_tag_1',
                     onPressed: () {
-                      context.read<GpaCubit>().generateAndSavePdf();
+                      if (context
+                          .read<GpaCubit>()
+                          .allCreditHours
+                          .isNullOrZero()) {
+                        customSnackBar(context, 'No courses found.');
+                      } else {
+                        context.read<GpaCubit>().generateAndSavePdf();
+                      }
                     },
                     child: const Icon(
                       Icons.download,

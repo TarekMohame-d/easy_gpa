@@ -5,6 +5,8 @@ import 'package:easy_gpa/core/device/device_info_helper.dart';
 import 'package:easy_gpa/features/Home/data/data_sources/home_data_source.dart';
 import 'package:easy_gpa/features/Home/domain/repository/home_repo.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -18,30 +20,26 @@ class HomeRepoImpl implements HomeRepo {
   HomeRepoImpl(this._homeDataSource);
 
   @override
-  Future<bool> generateAndSavePdf(
+  Future<(bool success, String errorMessage)> generateAndSavePdf(
     List<CourseModel> courses,
     double cGPA,
     int allCreditHours,
   ) async {
     try {
-      // Request storage permission and exit if not granted
-      if (!await _requestStoragePermission()) {
-        return false;
-      }
+      final path = await _getDirectoryPath();
+      if (path.$1 == false) return (false, path.$2);
 
       // Create PDF document
       final pdf = await _buildPdf(courses, cGPA, allCreditHours);
 
-      final path = await _getDirectoryPath();
-
       // Save the PDF file
-      final file = File('$path/courses_report.pdf');
+      final file = File('${path.$2}/courses_report.pdf');
       await file.writeAsBytes(await pdf.save());
 
-      return true;
+      return (true, path.$2);
     } catch (e) {
       log('Failed to generate or save PDF: $e');
-      return false;
+      return (false, 'Failed to generate PDF');
     }
   }
 
@@ -129,45 +127,88 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   // Method to get the directory path
-  Future<String> _getDirectoryPath() async {
-    final directory = Directory('/storage/emulated/0/Download');
-    if (await directory.exists()) {
-      return directory.path;
+  Future<(bool, String)> _getDirectoryPath() async {
+    try {
+      final result = await _requestStoragePermission();
+
+      if (result.$1 == false) return (false, result.$2!);
+      Directory? directory;
+
+      if (Platform.isAndroid) {
+        Directory? directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+          final downloadsDir = Directory('${directory!.path}/Download');
+          if (!await downloadsDir.exists()) {
+            await downloadsDir.create(recursive: true);
+          }
+          return (true, downloadsDir.path);
+        } else {
+          return (true, directory.path);
+        }
+      } else if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+        // Use Documents directory for iOS.
+        return (true, directory.path);
+      }
+      throw Exception('Unable to determine platform-specific directory.');
+    } catch (e) {
+      debugPrint('Error getting directory path: $e');
+      return (false, 'Unable to determine directory path.');
     }
-    return (await getExternalStorageDirectory())!.path;
   }
 
   // Method to request storage permission with a return boolean result
-  Future<bool> _requestStoragePermission() async {
+  Future<(bool, String?)> _requestStoragePermission() async {
+    if (Platform.isAndroid) {
+      Permission permission;
+
+      if (await _isAndroid12OrAbove()) {
+        permission = Permission.manageExternalStorage;
+      } else {
+        permission = Permission.storage;
+      }
+
+      var status = await permission.status;
+
+      if (status.isGranted) {
+        return (true, null);
+      } else {
+        status = await permission.request();
+      }
+
+      if (status.isPermanentlyDenied) {
+        await openAppSettings();
+        status = await permission.status;
+      }
+
+      if (status.isGranted) {
+        return (true, null);
+      } else {
+        return (false, 'Storage permission not granted');
+      }
+    } else if (Platform.isIOS) {
+      // Request permission to access media library (if needed)
+      if (!await Permission.storage.isGranted) {
+        final status = await Permission.storage.request();
+        if (status != PermissionStatus.granted) {
+          return (false, 'Storage permission not granted');
+        }
+        return (true, null);
+      }
+      return (true, null);
+    }
+    return (false, 'Unknown platform');
+  }
+
+  Future<bool> _isAndroid12OrAbove() async {
     final deviceInfo = await KDeviceInfoHelper.getAndroidDeviceInfo();
-    Permission permission;
-
-    if (deviceInfo.version.sdkInt > 32) {
-      permission = Permission.manageExternalStorage;
-    } else {
-      permission = Permission.storage;
-    }
-
-    var status = await permission.status;
-
-    if (status.isGranted) {
-      return true;
-    } else if (status.isDenied) {
-      status = await permission.request();
-    }
-
-    if (status.isPermanentlyDenied) {
-      await openAppSettings();
-      status = await permission.status;
-    }
-
-    return status.isGranted;
+    return deviceInfo.version.sdkInt >= 31;
   }
 
   @override
   Future<List<CourseModel>> getAllCourses() async {
-    List<Map<String, dynamic>> courses =
-        await _homeDataSource.getAllCourses();
+    List<Map<String, dynamic>> courses = await _homeDataSource.getAllCourses();
     List<CourseModel>? coursesList;
     if (courses.isNotEmpty) {
       coursesList = courses.map((e) => CourseModel.fromMap(e)).toList();

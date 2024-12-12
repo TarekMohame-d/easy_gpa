@@ -58,14 +58,14 @@ customAddCourseBottomSheet(BuildContext context,
                     verticalSpace(24),
                     KTextFormField(
                       controller: courseNameController,
-                      hintText: 'Course Name',
                       validator: (input) {
                         if (input == null || input.isEmpty) {
                           return 'Please enter course name';
                         }
                         return null;
                       },
-                      hintStyle: Theme.of(context)
+                      labelText: 'Course Name',
+                      labelStyle: Theme.of(context)
                           .textTheme
                           .bodySmall!
                           .copyWith(fontSize: 14.sp),
@@ -74,10 +74,9 @@ customAddCourseBottomSheet(BuildContext context,
                           .bodySmall!
                           .copyWith(fontSize: 14.sp),
                     ),
-                    verticalSpace(12),
+                    verticalSpace(16),
                     KTextFormField(
                       controller: courseCreditsController,
-                      hintText: 'Credits',
                       validator: (input) {
                         if (input.isNullOrEmpty()) {
                           return 'Please enter course credits';
@@ -89,10 +88,14 @@ customAddCourseBottomSheet(BuildContext context,
                         if (parsed > 8) {
                           return 'Course credits cannot be greater than 8';
                         }
+                        if (parsed == 0) {
+                          return 'Course credits cannot be 0';
+                        }
                         return null;
                       },
                       keyboardType: TextInputType.number,
-                      hintStyle: Theme.of(context)
+                      labelText: 'Credits',
+                      labelStyle: Theme.of(context)
                           .textTheme
                           .bodySmall!
                           .copyWith(fontSize: 14.sp),
@@ -101,7 +104,7 @@ customAddCourseBottomSheet(BuildContext context,
                           .bodySmall!
                           .copyWith(fontSize: 14.sp),
                     ),
-                    verticalSpace(12),
+                    verticalSpace(16),
                     DropdownButtonHideUnderline(
                       child: Theme(
                         data: Theme.of(context).copyWith(
@@ -113,6 +116,11 @@ customAddCourseBottomSheet(BuildContext context,
                               horizontal: 12.w,
                               vertical: 14.h,
                             ),
+                            labelText: 'Grade',
+                            labelStyle: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(fontSize: 14.sp),
                           ),
                           style: Theme.of(context)
                               .textTheme
@@ -130,13 +138,6 @@ customAddCourseBottomSheet(BuildContext context,
                               selectedGrade = newValue;
                             });
                           },
-                          hint: Text(
-                            'Grade',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(fontSize: 14.sp),
-                          ),
                           items: grades.map((String grade) {
                             return DropdownMenuItem<String>(
                               value: grade,
@@ -150,8 +151,9 @@ customAddCourseBottomSheet(BuildContext context,
                     Align(
                       alignment: Alignment.center,
                       child: KTextButton(
-                        buttonWidth:
+                        fixedSize: Size(
                             KHelperFunctions.getScreenWidth(context) * 0.5,
+                            50.h),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             CourseModel course = CourseModel(

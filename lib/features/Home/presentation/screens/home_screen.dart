@@ -23,9 +23,10 @@ class HomeScreen extends StatelessWidget {
             current is SavePdfSuccess || current is SavePdfFailure,
         listener: (context, state) {
           if (state is SavePdfSuccess) {
-            customSnackBar(context, 'PDF saved successfully');
+            customSnackBar(
+                context, 'PDF saved successfully:\n${state.directoryPath}');
           } else if (state is SavePdfFailure) {
-            customSnackBar(context, 'Failed to save PDF');
+            customSnackBar(context, state.errorMessage);
           }
         },
         buildWhen: (previous, current) =>
@@ -37,52 +38,61 @@ class HomeScreen extends StatelessWidget {
             future: context.read<GpaCubit>().allCourses.isEmpty
                 ? context.read<GpaCubit>().getAllCourses()
                 : null,
-            builder: (context, snapshot) => SafeArea(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: KHelperFunctions.getScreenHeight(context) * 0.4,
+            builder: (context, snapshot) => Column(
+              children: [
+                SizedBox(
+                  height: KHelperFunctions.getScreenHeight(context) * 0.4,
+                  child: Stack(
+                    children: [
+                      const Align(
+                        alignment: Alignment.topRight,
+                        child: AllSemestersContainer(),
+                      ),
+                      Positioned(
+                        top: 50.h,
+                        left: 20.w,
+                        child: Text(
+                          'Grade Point\nAverage',
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: CGPACard(
+                          cGPA: context.read<GpaCubit>().cGPA,
+                          allCreditHours:
+                              context.read<GpaCubit>().allCreditHours,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                verticalSpace(32),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
                     child: Stack(
                       children: [
-                        const Align(
-                          alignment: Alignment.topRight,
-                          child: AllSemestersContainer(),
+                        Text(
+                          'Grade Statistics',
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: KFontWeightHelper.semiBold,
+                                  ),
                         ),
-                        Positioned(
-                          top: 50.h,
-                          left: 20.w,
-                          child: Text(
-                            'Grade Point\nAverage',
-                            style: Theme.of(context).textTheme.headlineLarge,
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: KColors.grey.withOpacity(0.4),
+                            ),
                           ),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          child: CGPACard(
-                            cGPA: context.read<GpaCubit>().cGPA,
-                            allCreditHours:
-                                context.read<GpaCubit>().allCreditHours,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  verticalSpace(32),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                      child: Stack(
-                        children: [
-                          Text(
-                            'Grade Statistics',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontWeight: KFontWeightHelper.semiBold,
-                                ),
-                          ),
-                          Container(
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width:
+                                KHelperFunctions.getScreenWidth(context) * 0.8,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
@@ -90,45 +100,32 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              width: KHelperFunctions.getScreenWidth(context) *
-                                  0.8,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: KColors.grey.withOpacity(0.4),
-                                ),
-                              ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: GradeStatisticsPieChart(
+                            gradesStatistics:
+                                context.read<GpaCubit>().gradesStatistics,
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 8.h,
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              customDialog(context);
+                            },
+                            heroTag: 'unique_tag_2',
+                            child: const Icon(
+                              Icons.info_outline_rounded,
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: GradeStatisticsPieChart(
-                              gradesStatistics:
-                                  context.read<GpaCubit>().gradesStatistics,
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            bottom: 10.h,
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                customDialog(context);
-                              },
-                              heroTag: 'unique_tag_2',
-                              child: const Icon(
-                                Icons.info_outline_rounded,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

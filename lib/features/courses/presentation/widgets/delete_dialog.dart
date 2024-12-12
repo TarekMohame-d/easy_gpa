@@ -1,10 +1,12 @@
 import 'package:easy_gpa/core/helpers/extensions.dart';
 import 'package:easy_gpa/core/helpers/font_weight_helper.dart';
 import 'package:easy_gpa/core/theme/colors.dart';
+import 'package:easy_gpa/core/widgets/text_button.dart';
 import 'package:easy_gpa/cubit/gpa_cubit.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 showDeleteDialog(BuildContext context, CourseModel courseModel) {
   showDialog(
@@ -26,38 +28,32 @@ showDeleteDialog(BuildContext context, CourseModel courseModel) {
         borderRadius: BorderRadius.circular(12),
       ),
       actions: [
-        TextButton(
+        KTextButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
           },
-          style: const ButtonStyle(
-            padding: WidgetStatePropertyAll(
-              EdgeInsets.zero,
-            ),
-          ),
-          child: Text(
-            'Cancel',
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
+          padding: EdgeInsets.zero,
+          overlayColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          buttonText: 'Cancel',
+          textStyle: Theme.of(context).textTheme.labelMedium,
+          fixedSize: Size(50.w, 50.h),
         ),
-        TextButton(
+        KTextButton(
           onPressed: () async {
             await context
                 .read<GpaCubit>()
                 .deleteCourse(courseModel.id!)
                 .then((_) => context.pop());
           },
-          style: const ButtonStyle(
-            padding: WidgetStatePropertyAll(
-              EdgeInsets.zero,
-            ),
-          ),
-          child: Text(
-            'Delete',
-            style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                  color: Colors.red,
-                ),
-          ),
+          padding: EdgeInsets.zero,
+          overlayColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          buttonText: 'Delete',
+          textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
+                color: Colors.red,
+              ),
+          fixedSize: Size(50.w, 50.h),
         ),
       ],
     ),
