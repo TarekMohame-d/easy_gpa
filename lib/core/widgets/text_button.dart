@@ -1,52 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class KTextButton extends StatelessWidget {
-  final double? borderRadius;
   final Color? backgroundColor;
-  final double? horizontalPadding;
-  final double? verticalPadding;
-  final double? buttonWidth;
-  final double? buttonHeight;
+  final EdgeInsetsGeometry? padding;
   final String? buttonText;
   final TextStyle? textStyle;
   final VoidCallback onPressed;
+  final OutlinedBorder? shape;
+  final Size? fixedSize;
+  final Color? overlayColor;
   final Widget? child;
   const KTextButton({
     super.key,
-    this.borderRadius,
     this.backgroundColor,
-    this.horizontalPadding,
-    this.verticalPadding,
-    this.buttonHeight,
-    this.buttonWidth,
     this.buttonText,
     this.textStyle,
     required this.onPressed,
     this.child,
+    this.padding,
+    this.shape,
+    this.fixedSize,
+    this.overlayColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: ButtonStyle(
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 16.0),
-          ),
-        ),
-        backgroundColor: WidgetStatePropertyAll(
-          backgroundColor ?? Colors.blue,
-        ),
-        padding: WidgetStateProperty.all<EdgeInsets>(
-          EdgeInsets.symmetric(
-            horizontal: horizontalPadding?.w ?? 12.w,
-            vertical: verticalPadding?.h ?? 14.h,
-          ),
-        ),
-        fixedSize: WidgetStateProperty.all(
-          Size(buttonWidth?.w ?? double.maxFinite, buttonHeight ?? 50.h),
-        ),
+      style: TextButton.styleFrom(
+        shape: shape,
+        backgroundColor: backgroundColor,
+        padding: padding,
+        fixedSize: fixedSize,
+        overlayColor: overlayColor,
       ),
       onPressed: onPressed,
       child: child ??

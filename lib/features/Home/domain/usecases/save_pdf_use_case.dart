@@ -5,7 +5,7 @@ class SavePdfUseCase {
   final HomeRepo _homeRepo;
 
   SavePdfUseCase(this._homeRepo);
-  Future<bool> call(
+  Future<(bool success, String errorMessage)> call(
     List<CourseModel> courses,
     double cGPA,
     int allCreditHours,

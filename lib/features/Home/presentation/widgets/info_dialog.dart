@@ -6,7 +6,8 @@ void customDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text('GPA Scale', style: Theme.of(context).textTheme.titleLarge),
+        title:
+            Text('GPA Scale', style: Theme.of(context).textTheme.titleMedium),
         contentPadding: const EdgeInsets.symmetric(vertical: 10),
         content: Column(
           mainAxisSize: MainAxisSize.min,

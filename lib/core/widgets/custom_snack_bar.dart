@@ -14,7 +14,7 @@ void customSnackBar(BuildContext context, String message,
             .copyWith(color: KColors.white),
       ),
       duration: duration,
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
     ),
   );
 }
