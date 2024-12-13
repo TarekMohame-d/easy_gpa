@@ -36,7 +36,7 @@ class CGPACard extends StatelessWidget {
                     height: 70.h,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'ALL SEMESTERS',
@@ -90,6 +90,7 @@ class CGPACard extends StatelessWidget {
                   horizontalSpace(20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Total Credit Hours',

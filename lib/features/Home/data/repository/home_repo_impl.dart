@@ -2,7 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:easy_gpa/core/device/device_info_helper.dart';
-import 'package:easy_gpa/features/Home/data/data_sources/home_data_source.dart';
+import 'package:easy_gpa/core/helpers/repo_result.dart';
+import 'package:easy_gpa/core/helpers/sql_helper.dart';
 import 'package:easy_gpa/features/Home/domain/repository/home_repo.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:flutter/material.dart';
@@ -15,19 +16,15 @@ import 'package:pdf/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeRepoImpl implements HomeRepo {
-  final HomeDataSource _homeDataSource;
-
-  HomeRepoImpl(this._homeDataSource);
-
   @override
-  Future<(bool success, String errorMessage)> generateAndSavePdf(
+  Future<RepoResult<String>> generateAndSavePdf(
     List<CourseModel> courses,
     double cGPA,
     int allCreditHours,
   ) async {
     try {
       final path = await _getDirectoryPath();
-      if (path.$1 == false) return (false, path.$2);
+      if (path.$1 == false) return RepoResult.failure(path.$2);
 
       // Create PDF document
       final pdf = await _buildPdf(courses, cGPA, allCreditHours);
@@ -36,10 +33,10 @@ class HomeRepoImpl implements HomeRepo {
       final file = File('${path.$2}/courses_report.pdf');
       await file.writeAsBytes(await pdf.save());
 
-      return (true, path.$2);
+      return RepoResult.success(path.$2);
     } catch (e) {
       log('Failed to generate or save PDF: $e');
-      return (false, 'Failed to generate PDF');
+      return RepoResult.failure('Failed to generate PDF.');
     }
   }
 
@@ -185,20 +182,20 @@ class HomeRepoImpl implements HomeRepo {
       if (status.isGranted) {
         return (true, null);
       } else {
-        return (false, 'Storage permission not granted');
+        return (false, 'Storage permission not granted.');
       }
     } else if (Platform.isIOS) {
       // Request permission to access media library (if needed)
       if (!await Permission.storage.isGranted) {
         final status = await Permission.storage.request();
         if (status != PermissionStatus.granted) {
-          return (false, 'Storage permission not granted');
+          return (false, 'Storage permission not granted.');
         }
         return (true, null);
       }
       return (true, null);
     }
-    return (false, 'Unknown platform');
+    return (false, 'Unknown platform.');
   }
 
   Future<bool> _isAndroid12OrAbove() async {
@@ -207,12 +204,17 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<List<CourseModel>> getAllCourses() async {
-    List<Map<String, dynamic>> courses = await _homeDataSource.getAllCourses();
-    List<CourseModel>? coursesList;
-    if (courses.isNotEmpty) {
-      coursesList = courses.map((e) => CourseModel.fromMap(e)).toList();
+  Future<RepoResult<List<CourseModel>>> getAllCourses() async {
+    try {
+      List<Map<String, dynamic>> courses = await SQLHelper.getAllDBItems();
+      List<CourseModel>? coursesList;
+      if (courses.isNotEmpty) {
+        coursesList = courses.map((e) => CourseModel.fromMap(e)).toList();
+      }
+      return RepoResult.success(coursesList ?? []);
+    } catch (e) {
+      debugPrint('Error while getting all courses: $e');
+      return RepoResult.failure('Error while getting all courses: $e');
     }
-    return coursesList ?? [];
   }
 }

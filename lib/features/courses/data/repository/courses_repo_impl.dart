@@ -1,24 +1,40 @@
-import 'package:easy_gpa/features/courses/data/data_sources/courses_data_source.dart';
+import 'package:easy_gpa/core/helpers/repo_result.dart';
+import 'package:easy_gpa/core/helpers/sql_helper.dart';
 import 'package:easy_gpa/features/courses/data/models/course_model.dart';
 import 'package:easy_gpa/features/courses/domain/repository/courses_repo.dart';
+import 'package:flutter/material.dart';
 
 class CoursesRepoImpl implements CoursesRepo {
-  CoursesRepoImpl(this._coursesLocalDataSource);
-
-  final CoursesDataSource _coursesLocalDataSource;
-
   @override
-  Future<(bool, int?)> insertCourse(CourseModel course) async {
-    return await _coursesLocalDataSource.insertCourse(course);
+  Future<RepoResult<int>> insertCourse(CourseModel course) async {
+    try {
+      final result = await SQLHelper.insert(course.toMap());
+      return RepoResult.success(result);
+    } catch (e) {
+      debugPrint("Error while Inserting: $e");
+      return RepoResult.failure('Error while Inserting: $e');
+    }
   }
 
   @override
-  Future<bool> updateCourse(CourseModel course) async {
-    return await _coursesLocalDataSource.updateCourse(course);
+  Future<RepoResult<bool>> updateCourse(CourseModel course) async {
+    try {
+      final result = await SQLHelper.update(course.toMap());
+      return RepoResult.success(result);
+    } catch (e) {
+      debugPrint("Error while Updating: $e");
+      return RepoResult.failure('Error while Updating: $e');
+    }
   }
 
   @override
-  Future<bool> deleteCourse(int courseId) async {
-    return await _coursesLocalDataSource.deleteCourse(courseId);
+  Future<RepoResult<bool>> deleteCourse(int courseId) async {
+    try {
+      final result = await SQLHelper.delete(courseId);
+      return RepoResult.success(result);
+    } catch (e) {
+      debugPrint("Error while Deleting: $e");
+      return RepoResult.failure('Error while Deleting: $e');
+    }
   }
 }

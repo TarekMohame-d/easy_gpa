@@ -20,7 +20,7 @@ class CourseCardTemplate extends StatelessWidget {
           customAddCourseBottomSheet(context, semesterNumber);
         } else {
           customSnackBar(
-              context, 'Maximum number of courses per semester is 8');
+              context, 'Maximum number of courses per semester is 8.');
         }
       },
       child: DottedBorder(

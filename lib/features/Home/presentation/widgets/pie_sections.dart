@@ -24,7 +24,7 @@ List<PieChartSectionData> creatingPieSections(
       final double opacity = isSelected ? 1.0 : 0.6;
       double percentage = totalCourses > 0
           ? (filteredGradesStatistics.values.elementAt(index) / totalCourses) *
-              100
+              360
           : 0;
 
       final Color sectionColor =
@@ -33,7 +33,7 @@ List<PieChartSectionData> creatingPieSections(
 
       return PieChartSectionData(
         color: sectionColor,
-        value: percentage,
+        value: percentage + 20,
         radius: radius,
         showTitle: false,
         badgeWidget: Container(
@@ -48,7 +48,7 @@ List<PieChartSectionData> creatingPieSections(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${percentage.toStringAsFixed(1)}%',
+                '${(percentage / 360 * 100).toStringAsFixed(1)}%',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: KColors.black.withOpacity(opacity),
                     ),
