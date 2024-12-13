@@ -31,7 +31,7 @@ dependencies:
   flutter_bloc: ^8.1.6
 
   # A highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
-  fl_chart: ^0.69.1
+  fl_chart: ^0.69.2
 
   # A flutter package to let users easily add a dashed border around any widget.
   dotted_border: ^2.1.0
@@ -61,7 +61,7 @@ dependencies:
   path_provider: ^2.1.5
 
   # Flutter plugin providing detailed information about the device
-  device_info_plus: ^11.1.1
+  device_info_plus: ^11.2.0
 
   # simplifies the task of updating your Flutter app's launcher icon.
   flutter_launcher_icons: ^0.14.2

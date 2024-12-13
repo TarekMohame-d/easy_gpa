@@ -185,8 +185,8 @@ customAddCourseBottomSheet(BuildContext context,
                             editCourse == null ? 'Add Course' : 'Update Course',
                         textStyle: Theme.of(context)
                             .textTheme
-                            .bodyMedium!
-                            .copyWith(color: KColors.white),
+                            .bodyLarge!
+                            .copyWith(color: KColors.white, fontSize: 14.sp),
                         backgroundColor: KColors.lightOrange,
                       ),
                     ),

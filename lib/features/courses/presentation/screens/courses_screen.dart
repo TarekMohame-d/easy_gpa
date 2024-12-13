@@ -42,9 +42,9 @@ class CoursesScreen extends StatelessWidget {
                 current is UpdateCourseSuccess,
             listener: (context, state) {
               if (state is DeleteCourseSuccess) {
-                customSnackBar(context, 'Course deleted successfully');
+                customSnackBar(context, 'Course deleted successfully.');
               } else if (state is UpdateCourseSuccess) {
-                customSnackBar(context, 'Course updated successfully');
+                customSnackBar(context, 'Course updated successfully.');
               }
             },
             buildWhen: (previous, current) =>

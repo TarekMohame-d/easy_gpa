@@ -39,7 +39,7 @@ class HomeRepoImpl implements HomeRepo {
       return (true, path.$2);
     } catch (e) {
       log('Failed to generate or save PDF: $e');
-      return (false, 'Failed to generate PDF');
+      return (false, 'Failed to generate PDF.');
     }
   }
 
@@ -185,20 +185,20 @@ class HomeRepoImpl implements HomeRepo {
       if (status.isGranted) {
         return (true, null);
       } else {
-        return (false, 'Storage permission not granted');
+        return (false, 'Storage permission not granted.');
       }
     } else if (Platform.isIOS) {
       // Request permission to access media library (if needed)
       if (!await Permission.storage.isGranted) {
         final status = await Permission.storage.request();
         if (status != PermissionStatus.granted) {
-          return (false, 'Storage permission not granted');
+          return (false, 'Storage permission not granted.');
         }
         return (true, null);
       }
       return (true, null);
     }
-    return (false, 'Unknown platform');
+    return (false, 'Unknown platform.');
   }
 
   Future<bool> _isAndroid12OrAbove() async {
