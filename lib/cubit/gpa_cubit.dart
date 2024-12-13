@@ -108,6 +108,7 @@ class GpaCubit extends Cubit<GpaState> {
         semester: course.semester,
         id: result.data,
       ));
+      allCourses.sort((a, b) => a.semester.compareTo(b.semester));
       calculateHomeScreenData();
       emit(InsertCourseSuccess());
     } else {

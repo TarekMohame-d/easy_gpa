@@ -64,7 +64,10 @@ class SQLHelper {
   /// Retrieve All Items
   static Future<List<Map<String, dynamic>>> getAllDBItems() async {
     try {
-      return await _db!.query(_tableName);
+      return await _db!.query(
+        _tableName,
+        orderBy: 'semester ASC',
+      );
     } catch (e) {
       debugPrint("Error while retrieving: $e");
       throw Exception("Error while retrieving all items: $e");
