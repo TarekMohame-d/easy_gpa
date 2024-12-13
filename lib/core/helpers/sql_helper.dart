@@ -33,17 +33,17 @@ class SQLHelper {
   }
 
   /// Add Item
-  static Future<(bool, int?)> insert(Map<String, Object?> values) async {
+  static Future<int> insert(Map<String, Object?> values) async {
     try {
       int index = await _db!.insert(
         _tableName,
         values,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-      return (true, index);
+      return index;
     } catch (e) {
       debugPrint("Error while inserting: $e");
-      return (false, null);
+      throw Exception("Error while inserting: $e");
     }
   }
 
@@ -57,7 +57,7 @@ class SQLHelper {
       );
     } catch (e) {
       debugPrint("Error while retrieving: $e");
-      return [];
+      throw Exception("Error while retrieving: $e");
     }
   }
 
@@ -67,7 +67,7 @@ class SQLHelper {
       return await _db!.query(_tableName);
     } catch (e) {
       debugPrint("Error while retrieving: $e");
-      return [];
+      throw Exception("Error while retrieving all items: $e");
     }
   }
 
@@ -88,33 +88,33 @@ class SQLHelper {
       return true;
     } catch (e) {
       debugPrint("Error while Updating: $e");
-      return false;
+      throw Exception("Error while Updating: $e");
     }
   }
 
   /// Delete Item
   static Future<bool> delete(int id) async {
     try {
-      await _db!.delete(
+      int count = await _db!.delete(
         _tableName,
         where: 'id = ?',
         whereArgs: [id],
       );
-      return true;
+      return count > 0;
     } catch (e) {
       debugPrint("Error while deleting: $e");
-      return false;
+      throw Exception("Error while deleting: $e");
     }
   }
 
   /// Clear DataBase
   static Future<bool> clear() async {
     try {
-      await _db!.delete(_tableName);
-      return true;
+      int count = await _db!.delete(_tableName);
+      return count > 0;
     } catch (e) {
       debugPrint("Error while clearing: $e");
-      return false;
+      throw Exception("Error while clearing database: $e");
     }
   }
 

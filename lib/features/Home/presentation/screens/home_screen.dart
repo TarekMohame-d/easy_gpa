@@ -20,12 +20,16 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocConsumer<GpaCubit, GpaState>(
         listenWhen: (previous, current) =>
-            current is SavePdfSuccess || current is SavePdfFailure,
+            current is SavePdfSuccess ||
+            current is SavePdfFailure ||
+            current is GetAllCoursesFailure,
         listener: (context, state) {
           if (state is SavePdfSuccess) {
             customSnackBar(
                 context, 'PDF saved successfully:\n${state.directoryPath}');
           } else if (state is SavePdfFailure) {
+            customSnackBar(context, state.errorMessage);
+          } else if (state is GetAllCoursesFailure) {
             customSnackBar(context, state.errorMessage);
           }
         },

@@ -9,7 +9,11 @@ final class GetAllCoursesLoading extends GpaState {}
 
 final class GetAllCoursesSuccess extends GpaState {}
 
-final class GetAllCoursesFailure extends GpaState {}
+final class GetAllCoursesFailure extends GpaState {
+    final String errorMessage;
+
+  GetAllCoursesFailure(this.errorMessage);
+}
 
 final class InsertCourseLoading extends GpaState {}
 

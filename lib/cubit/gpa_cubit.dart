@@ -99,14 +99,14 @@ class GpaCubit extends Cubit<GpaState> {
 
   Future<void> insertCourse(CourseModel course) async {
     emit(InsertCourseLoading());
-    final (bool, int?) result = await _insertCourseUseCase.call(course);
-    if (result.$1) {
+    final result = await _insertCourseUseCase.call(course);
+    if (result.isSuccess) {
       allCourses.add(CourseModel(
         credits: course.credits,
         grade: course.grade,
         name: course.name,
         semester: course.semester,
-        id: result.$2,
+        id: result.data,
       ));
       calculateHomeScreenData();
       emit(InsertCourseSuccess());
@@ -118,7 +118,7 @@ class GpaCubit extends Cubit<GpaState> {
   Future<void> updateCourse(CourseModel editedCourse) async {
     emit(UpdateCourseLoading());
     final result = await _updateCourseUseCase.call(editedCourse);
-    if (result) {
+    if (result.isSuccess) {
       final index =
           allCourses.indexWhere((course) => course.id == editedCourse.id);
       if (index != -1) {
@@ -134,7 +134,7 @@ class GpaCubit extends Cubit<GpaState> {
   Future<void> deleteCourse(int courseId) async {
     emit(DeleteCourseLoading());
     final result = await _deleteCourseUseCase.call(courseId);
-    if (result) {
+    if (result.isSuccess) {
       allCourses.removeWhere((course) => course.id == courseId);
       calculateHomeScreenData();
       emit(DeleteCourseSuccess());
@@ -145,11 +145,13 @@ class GpaCubit extends Cubit<GpaState> {
 
   Future<void> getAllCourses() async {
     emit(GetAllCoursesLoading());
-    final courses = await _getAllCoursesUseCase.call();
-    if (courses.isNotEmpty) {
-      allCourses = courses;
+    final result = await _getAllCoursesUseCase.call();
+    if (result.isSuccess) {
+      allCourses = result.data!;
       calculateHomeScreenData();
       emit(GetAllCoursesSuccess());
+    } else {
+      emit(GetAllCoursesFailure(result.error!));
     }
   }
 
@@ -162,10 +164,10 @@ class GpaCubit extends Cubit<GpaState> {
   Future<void> generateAndSavePdf() async {
     emit(SavePdfLoading());
     final result = await _savePdfUseCase.call(allCourses, cGPA, allCreditHours);
-    if (result.$1) {
-      emit(SavePdfSuccess(result.$2));
+    if (result.isSuccess) {
+      emit(SavePdfSuccess(result.data!));
     } else {
-      emit(SavePdfFailure(result.$2));
+      emit(SavePdfFailure(result.error!));
     }
   }
 }
