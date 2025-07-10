@@ -88,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: KColors.grey.withOpacity(0.4),
+                              color: KColors.grey.withValues(alpha: 0.4)
                             ),
                           ),
                         ),
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: KColors.grey.withOpacity(0.4),
+                                color: KColors.grey.withValues(alpha: 0.4)
                               ),
                             ),
                           ),

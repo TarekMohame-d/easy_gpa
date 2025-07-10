@@ -29,7 +29,7 @@ List<PieChartSectionData> creatingPieSections(
 
       final Color sectionColor =
           getColor(filteredGradesStatistics.keys.elementAt(index))
-              .withOpacity(opacity);
+              .withValues(alpha: opacity);
 
       return PieChartSectionData(
         color: sectionColor,
@@ -41,7 +41,7 @@ List<PieChartSectionData> creatingPieSections(
           height: 60.h,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white.withOpacity(opacity),
+            color: Colors.white.withValues(alpha: opacity),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -50,13 +50,13 @@ List<PieChartSectionData> creatingPieSections(
               Text(
                 '${(percentage / 360 * 100).toStringAsFixed(1)}%',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: KColors.black.withOpacity(opacity),
+                      color: KColors.black.withValues(alpha: opacity),
                     ),
               ),
               Text(
                 filteredGradesStatistics.keys.elementAt(index),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: KColors.grey.withOpacity(opacity),
+                      color: KColors.grey.withValues(alpha: opacity),
                     ),
               ),
             ],

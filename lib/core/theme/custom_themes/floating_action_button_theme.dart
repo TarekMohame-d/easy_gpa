@@ -9,6 +9,6 @@ class KFloatingActionButtonTheme {
     backgroundColor: KColors.lightOrange,
     elevation: 5,
     enableFeedback: true,
-    splashColor: Colors.grey.withOpacity(0.3),
+    splashColor: Colors.grey.withValues(alpha: 0.3),
   );
 }

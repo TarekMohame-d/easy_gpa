@@ -51,7 +51,7 @@ customAddCourseBottomSheet(BuildContext context,
                         margin: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: KColors.grey.withOpacity(0.8),
+                          color: KColors.grey.withValues(alpha: 0.8)
                         ),
                       ),
                     ),

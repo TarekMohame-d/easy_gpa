@@ -11,14 +11,14 @@ class KInputDecorationTheme {
     ),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: KColors.lightOrange.withOpacity(0.6),
+        color: KColors.lightOrange.withValues(alpha: 0.6),
         width: 1.2,
       ),
       borderRadius: BorderRadius.circular(12),
     ),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: KColors.black.withOpacity(0.6),
+        color: KColors.black.withValues(alpha: 0.6),
         width: 1.2,
       ),
       borderRadius: BorderRadius.circular(12),

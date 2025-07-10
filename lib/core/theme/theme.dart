@@ -1,6 +1,5 @@
 import 'package:easy_gpa/core/theme/custom_themes/app_bar_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/bottom_sheet_theme.dart';
-import 'package:easy_gpa/core/theme/custom_themes/button_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/dialog_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/elevated_button_theme.dart';
 import 'package:easy_gpa/core/theme/custom_themes/floating_action_button_theme.dart';
@@ -26,7 +25,6 @@ class KAppTheme {
         KFloatingActionButtonTheme.floatingActionButtonTheme,
     elevatedButtonTheme: KElevatedButtonTheme.elevatedButtonTheme,
     appBarTheme: KAppBarTheme.appBarTheme,
-    buttonTheme: KButtonTheme.buttonTheme,
     dialogTheme: KDialogTheme.dialogTheme,
     bottomSheetTheme: KBottomSheetTheme.bottomSheetTheme,
     inputDecorationTheme: KInputDecorationTheme.inputDecorationTheme,
