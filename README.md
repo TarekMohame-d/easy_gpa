@@ -1,4 +1,4 @@
-# EasyGPA
+# EasyGPA 🎓
 
 __EasyGPA__ is a simple and intuitive mobile application built with Flutter that helps users calculate their GPA, CGPA, and track their credit hours. This app is designed for students to efficiently manage and monitor their academic performance over multiple semesters.
 
